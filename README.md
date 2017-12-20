@@ -30,7 +30,14 @@ U ovom odeljku opisani su koraci potrebni za podizanje aplikacije na udaljeni se
 Za sada u izradi...
 
 # Alati korišćeni u razvoju
-U izradi...
+Za modelovanje slučajeva korišćenja i dijagrama klasa:
+  - Powerdesigner 15.0
+  
+Za modelovanje BPMN:
+  - Yaoqiang BPMN editor
+  
+Za implementaciju mikroservisne arhitekure i web aplikacije:
+  - U izradi...
 
 # Autori
 - Dušan Radisavljević
