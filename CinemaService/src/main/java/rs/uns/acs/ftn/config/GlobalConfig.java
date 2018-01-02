@@ -1,4 +1,4 @@
-package rs.ac.uns.ftn.config;
+package rs.uns.acs.ftn.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

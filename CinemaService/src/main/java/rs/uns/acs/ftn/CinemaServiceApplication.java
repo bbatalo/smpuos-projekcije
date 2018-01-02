@@ -1,4 +1,4 @@
-package rs.ac.uns.ftn;
+package rs.uns.acs.ftn;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
