@@ -21,28 +21,24 @@ public interface UserRepository extends MongoRepository<User, String>{
 	
 	Page<User> findByFirstName(String firstName, Pageable pageable);
 	
-	List<User> findByFirstNameAndLastName(String firstName, String lastName);
+	List<User> findByFirstNameAndLastName(String firstName, String lastName);	
 	
-	List<User> findByFirstNameNotNull();
+	List<User> findByLocationNear(Point point, Distance distance);
 	
-	List<User> findByFirstNameNull();
+	List<User> findByLocationWithin(GeoJsonPolygon polygon);
 	
-	List<User> findByUserLocationNear(Point point, Distance distance);
-	
-	List<User> findByUserLocationWithin(GeoJsonPolygon polygon);
-	
-	List<User> findByUserStatus(User.UserStatus userStatus);
+	List<User> findByStatus(User.Status status);
 	
 	List<User> findByDateOfBirthBetween(Date start, Date end);
 
-	User findByUserName(String userName);
+	User findByUsername(String username);
 	
 	User findById(String userId);
 	
-	User findByIdAndUserStatus(String userId, User.UserStatus userStatus);
+	User findByIdAndStatus(String userId, User.Status status);
 	
-	User findByUserNameAndUserStatus(String userName, User.UserStatus userStatus);
+	User findByUsernameAndStatus(String username, User.Status status);
 	
-	User findByUserNameAndUserType(String userName, User.UserType userType);
+	User findByUsernameAndType(String username, User.Type type);
 	
 }

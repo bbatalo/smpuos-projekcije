@@ -1,6 +1,7 @@
 package rs.uns.acs.ftn.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
 
 import rs.uns.acs.ftn.models.User;
@@ -24,9 +26,9 @@ public class UserService extends AbstractCRUDService<User, String>{
 		this.userRepository = userRepository;
 	}
 	
-	public User login(String userName, String password){
-		User.UserStatus userStatus = User.UserStatus.ACTIVE;
-		User user = userRepository.findByUserNameAndUserStatus(userName, userStatus);
+	public User login(String username, String password){
+		User.Status status = User.Status.ACTIVE;
+		User user = userRepository.findByUsernameAndStatus(username, status);
 		
 		if(user != null){
 			if(user.getPassword().equals(password)){
@@ -37,67 +39,65 @@ public class UserService extends AbstractCRUDService<User, String>{
 		return null;
 	}
 
-	public User signUp(String userName, String password){
+	public User signUp(String username, String password, String firstName, String lastName,
+			Date dateOfBirth, User.Gender gender, GeoJsonPoint location){
 		User user = new User(
 				null,
-				null,
-				null,
-				userName,
+				firstName,
+				lastName,
+				username,
 				password,
-				null,
-				null,
-				null,
-				null,
-				User.UserStatus.ACTIVE,
-				User.UserType.REGISTERED);
+				new Date(),
+				dateOfBirth,
+				gender,
+				location,
+				User.Status.ACTIVE,
+				User.Type.REGISTERED);
 				
-		userRepository.save(user);
+		user = userRepository.save(user);
 		
-		return null;
+		return user;
 	}
 	
-	public void activateUser(String userName, String token) {
-		User.UserType userType = User.UserType.ADMINISTRATOR;
-		User admin = userRepository.findByUserNameAndUserType(token, userType);
+	public void activateUser(String username, String requesterId) {
+		User requester = userRepository.findById(requesterId);
 		
-		if (admin != null) {
-			User.UserStatus oldUserStatus = User.UserStatus.INACTIVE;
-			User targetUser = userRepository.findByUserNameAndUserStatus(userName, oldUserStatus);
+		if (requester.getType() == User.Type.ADMINISTRATOR) {
+			User.Status oldStatus = User.Status.INACTIVE;
+			User user = userRepository.findByUsernameAndStatus(username, oldStatus);
 			
-			if (targetUser != null) {
-				User.UserStatus newUserStatus = User.UserStatus.ACTIVE;
+			if (user != null) {
+				User.Status newStatus = User.Status.ACTIVE;
 				
-				targetUser.setUserStatus(newUserStatus);
+				user.setStatus(newStatus);
 			
-				userRepository.save(targetUser);
+				userRepository.save(user);
 			}
 		}
 	}
 	
-	public void deactivateUser(String userName, String token) {
-		User.UserType userType = User.UserType.ADMINISTRATOR;
-		User admin = userRepository.findByUserNameAndUserType(token, userType);
+	public void deactivateUser(String username, String requesterId) {
+		User requester = userRepository.findById(requesterId);
 		
-		if (admin != null) {
-			User.UserStatus oldUserStatus = User.UserStatus.ACTIVE;
-			User targetUser = userRepository.findByUserNameAndUserStatus(userName, oldUserStatus);
+		if (requester.getType() == User.Type.ADMINISTRATOR) {
+			User.Status oldStatus = User.Status.ACTIVE;
+			User user = userRepository.findByUsernameAndStatus(username, oldStatus);
 			
-			if (targetUser != null) {
-				User.UserStatus newUserStatus = User.UserStatus.INACTIVE;
+			if (user != null) {
+				User.Status newStatus = User.Status.INACTIVE;
 				
-				targetUser.setUserStatus(newUserStatus);
+				user.setStatus(newStatus);
 			
-				userRepository.save(targetUser);
+				userRepository.save(user);
 			}
 		}
 	}
 	
-	public List<User> findByUserStatus(User.UserStatus userStatus, String token){
-		User.UserType userType = User.UserType.ADMINISTRATOR;
-		User admin = userRepository.findByUserNameAndUserType(token, userType);
+	public List<User> findByStatus(User.Status status, String requesterId){
+		User requester = userRepository.findById(requesterId);
 		
-		if (admin != null) {
-			return userRepository.findByUserStatus(userStatus);
+		if (requester.getType() == User.Type.ADMINISTRATOR) {
+			return userRepository.findByStatus(status);
 		} else {
 			return new ArrayList<User>();
 		}
@@ -111,20 +111,20 @@ public class UserService extends AbstractCRUDService<User, String>{
 		return userRepository.findByFirstName(firstName, pageable);
 	}
 
-	public User findByIdAndUserStatus(String userId, User.UserStatus userStatus) {
-		return userRepository.findByIdAndUserStatus(userId, userStatus);
+	public User findByIdAndUserStatus(String id, User.Status status) {
+		return userRepository.findByIdAndStatus(id, status);
 	}
 
-	public User findById(String userId) {
-		return userRepository.findById(userId);
+	public User findById(String id) {
+		return userRepository.findById(id);
 	}
 
 	public List<User> findByFirstNameAndLastName(String firstName, String lastName) {
 		return userRepository.findByFirstNameAndLastName(firstName, lastName);
 	}
 	
-	public List<User> findByUserLocationNear(Point point, Distance distance) {
-		return userRepository.findByUserLocationNear(point, distance);
+	public List<User> findByLocationNear(Point point, Distance distance) {
+		return userRepository.findByLocationNear(point, distance);
 	};
 
 }

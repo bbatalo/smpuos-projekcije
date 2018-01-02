@@ -3,15 +3,32 @@ var insertDefaultDataUser = function(db){
         {
             "firstName" : "Test",
             "lastName": "Test",
-            "userName": "admin",
+            "username": "admin",
             "password": "admin",
             "dateOfRegistration": ISODate("1991-01-01T00:00:00.000Z"),
             "dateOfBirth": ISODate("1991-01-01T00:00:00.000Z"),
-            "userType": "ADMINISTRATOR",
-            "userLocation": {
+            "gender": "OTHER",
+            "location": {
                 "type": "Point",
                 "coordinates": [45.0, 22.0]
-            }
+            },
+            "status": "ACTIVE",
+            "type": "ADMINISTRATOR"
+        },
+        {
+            "firstName" : "Test",
+            "lastName": "Test",
+            "username": "regular",
+            "password": "regular",
+            "dateOfRegistration": ISODate("1991-01-01T00:00:00.000Z"),
+            "dateOfBirth": ISODate("1991-01-01T00:00:00.000Z"),
+            "gender": "OTHER",
+            "location": {
+                "type": "Point",
+                "coordinates": [-45.0, -22.0]
+            },
+            "status": "ACTIVE",
+            "type": "REGISTERED"
         }
     ]);
 

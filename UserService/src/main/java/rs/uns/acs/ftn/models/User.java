@@ -7,7 +7,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @SuppressWarnings("serial")
@@ -15,42 +14,41 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User implements Serializable{
 	
 	public enum Gender {MALE, FEMALE, OTHER};
-	public enum UserStatus {ACTIVE, INACTIVE}; 
-	public enum UserType {ADMINISTRATOR, REGISTERED};
+	public enum Status {ACTIVE, INACTIVE}; 
+	public enum Type {ADMINISTRATOR, REGISTERED};
 	
 	@Id
 	private String id;
-	@Indexed
 	private String firstName;
 	private String lastName;
-	private String userName;
+	private String username;
 	private String password;
 	private Date dateOfRegistration;
 	private Date dateOfBirth;
 	private Gender gender;
 	@GeoSpatialIndexed(type=GeoSpatialIndexType.GEO_2DSPHERE)
-	private GeoJsonPoint userLocation;
-	private UserStatus userStatus;
-	private UserType userType;
+	private GeoJsonPoint location;
+	private Status status;
+	private Type type;
 	
 	public User() {
 		super();
 	}
 
-	public User(String id, String firstName, String lastName, String userName, String password, Date dateOfRegistration,
-			Date dateOfBirth, Gender gender, GeoJsonPoint userLocation, UserStatus userStatus, UserType userType) {
+	public User(String id, String firstName, String lastName, String username, String password, Date dateOfRegistration,
+			Date dateOfBirth, Gender gender, GeoJsonPoint location, Status status, Type type) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 		this.dateOfRegistration = dateOfRegistration;
 		this.dateOfBirth = dateOfBirth;
 		this.gender = gender;
-		this.userLocation = userLocation;
-		this.userStatus = userStatus;
-		this.userType = userType;
+		this.location = location;
+		this.status = status;
+		this.type = type;
 	}
 
 	public String getId() {
@@ -77,12 +75,12 @@ public class User implements Serializable{
 		this.lastName = lastName;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -117,28 +115,28 @@ public class User implements Serializable{
 		this.gender = gender;
 	}
 
-	public GeoJsonPoint getUserLocation() {
-		return userLocation;
+	public GeoJsonPoint getLocation() {
+		return location;
 	}
 
-	public void setUserLocation(GeoJsonPoint userLocation) {
-		this.userLocation = userLocation;
+	public void setUserLocation(GeoJsonPoint location) {
+		this.location = location;
 	}
 
-	public UserStatus getUserStatus() {
-		return userStatus;
+	public Status getStatus() {
+		return status;
 	}
 
-	public void setUserStatus(UserStatus userStatus) {
-		this.userStatus = userStatus;
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
-	public UserType getUserType() {
-		return userType;
+	public Type getType() {
+		return type;
 	}
 
-	public void setUserType(UserType userType) {
-		this.userType = userType;
+	public void setType(Type type) {
+		this.type = type;
 	}
 
 	@Override

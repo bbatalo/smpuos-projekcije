@@ -50,8 +50,8 @@ public class UserRepositoryTest {
 				new SimpleDateFormat(dateFormat).parse("1900-01-01T00:00:00.000Z"),		
 			    User.Gender.MALE,
 			    new GeoJsonPoint(19.8334687,45.2527831),
-			    User.UserStatus.ACTIVE,
-			    User.UserType.REGISTERED);
+			    User.Status.ACTIVE,
+			    User.Type.REGISTERED);
 		
 		User user2 = new User(
 				null,
@@ -63,8 +63,8 @@ public class UserRepositoryTest {
 				new SimpleDateFormat(dateFormat).parse("1900-01-01T00:00:00.000Z"),		
 			    User.Gender.FEMALE,
 			    new GeoJsonPoint(19.8334687,45.2527831),
-			    User.UserStatus.ACTIVE,
-			    User.UserType.REGISTERED);
+			    User.Status.ACTIVE,
+			    User.Type.REGISTERED);
 		
 		User user3 = new User(
 				null,
@@ -76,8 +76,8 @@ public class UserRepositoryTest {
 				new SimpleDateFormat(dateFormat).parse("1900-01-01T00:00:00.000Z"),		
 			    User.Gender.OTHER,
 			    new GeoJsonPoint(19.8334687,45.2527831),
-			    User.UserStatus.ACTIVE,
-			    User.UserType.REGISTERED);
+			    User.Status.ACTIVE,
+			    User.Type.REGISTERED);
 		
 		userRepository.save(user1);
 		userRepository.save(user2);
@@ -97,18 +97,12 @@ public class UserRepositoryTest {
 		users = userRepository.findByFirstNameAndLastName("Sam", "Huckerr");
 		Assert.assertEquals(1, users.size());	
 		
-		users = userRepository.findByFirstNameNotNull();
-		Assert.assertEquals(2, users.size());
-		
-		users = userRepository.findByFirstNameNull();
-		Assert.assertEquals(1, users.size());
-		
-		users = userRepository.findByUserLocationNear( 
+		users = userRepository.findByLocationNear( 
 				new Point(13.8334688,48.2527831),
 				new Distance(1., Metrics.KILOMETERS));
 		Assert.assertEquals(1, users.size());
 		
-		users = userRepository.findByUserLocationWithin( 
+		users = userRepository.findByLocationWithin( 
 				new GeoJsonPolygon(
 						new Point(0., 0.),
 						new Point (0., 50.),
@@ -118,7 +112,7 @@ public class UserRepositoryTest {
 				);
 		Assert.assertEquals(2, users.size());
 		
-		users = userRepository.findByUserStatus(User.UserStatus.ACTIVE);
+		users = userRepository.findByStatus(User.Status.ACTIVE);
 		Assert.assertEquals(3, users.size());
 	}
 	
