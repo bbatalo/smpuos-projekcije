@@ -109,5 +109,12 @@ public class UserController extends AbstractRESTController<User, String>{
 		
 		return userService.findByLocationNear(point, distance);
 	}
+	
+	@RequestMapping(value = "/get_type", method = RequestMethod.GET)
+	public String getType(
+			@RequestParam(name = "username") String username
+	){
+		return userService.getType(username);
+	}
 
 }
