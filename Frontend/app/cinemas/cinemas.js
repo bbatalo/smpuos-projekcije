@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('cinCity.cinemas', ['ngRoute'])
+var cinemasModule = angular.module('cinCity.cinemas', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/cinemas', {
@@ -9,6 +9,10 @@ angular.module('cinCity.cinemas', ['ngRoute'])
   });
 }])
 
-.controller('CinemasCtrl', ['$scope', 'userService', function($scope, userService) {
+cinemasModule.controller('CinemasCtrl', ['$scope', 'userService', function($scope, userService) {
 
 }]);
+
+cinemasModule.service('cinemasService', function() {
+
+});

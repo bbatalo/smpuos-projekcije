@@ -14,26 +14,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
   $routeProvider.otherwise({redirectTo: '/users'});
 }]);
 
-cinCity.service('userService', function() {
-  var user = {};
-
-  var setUser = function(newUser) {
-    user = newUser;
-  };
-
-  var getUser = function() {
-    return user;
-  };
-
-  return {
-    setUser: setUser,
-    getUser: getUser
-  };
-});
-
 cinCity.controller('DashboardController', ['$scope', 'userService', function DashboardController($scope, userService) {
-
-  
 
 }]);
 

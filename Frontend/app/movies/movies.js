@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('cinCity.movies', ['ngRoute'])
+var moviesModule = angular.module('cinCity.movies', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/movies', {
@@ -9,6 +9,10 @@ angular.module('cinCity.movies', ['ngRoute'])
   });
 }])
 
-.controller('MoviesCtrl', ['$scope', 'userService', function($scope, userService) {
+moviesModule.controller('MoviesCtrl', ['$scope', 'userService', function($scope, userService) {
 
 }]);
+
+moviesModule.service('moviesService', function() {
+
+});

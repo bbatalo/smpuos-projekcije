@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('cinCity.projections', ['ngRoute'])
+var projectionsModule = angular.module('cinCity.projections', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/projections', {
@@ -9,6 +9,10 @@ angular.module('cinCity.projections', ['ngRoute'])
   });
 }])
 
-.controller('ProjectionsCtrl', ['$scope', 'userService', function($scope, userService) {
+projectionsModule.controller('ProjectionsCtrl', ['$scope', 'userService', function($scope, userService) {
 
 }]);
+
+projectionsModule.service('projectionsService', function() {
+
+});
