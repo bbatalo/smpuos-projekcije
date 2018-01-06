@@ -230,7 +230,7 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 	@RequestMapping(value = "/getMovieName",
 			method = RequestMethod.POST,
 			consumes = MediaType.TEXT_PLAIN,
-			produces = MediaType.APPLICATION_JSON)
+			produces = MediaType.TEXT_PLAIN)
 	public ResponseEntity<String> getMovieName(String movieId){
 		if (movieId!=null){
 			Movie movie = movieService.findById(movieId);
