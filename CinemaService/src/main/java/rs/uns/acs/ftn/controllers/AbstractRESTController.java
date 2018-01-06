@@ -93,21 +93,6 @@ public abstract class AbstractRESTController<T, ID extends Serializable> {
 		m.put("updated", updated);
 		return m;
 	}
-
-	/**
-	 * Delete desired entity.
-	 * @param id Entity identifier.
-	 * @return Operation success flag.
-	 */
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public Map<String, Object> delete(@PathVariable ID id) {
-		logger.debug("delete() - {}", id);
-		
-		service.delete(id);
-		Map<String, Object> m = new HashMap<String, Object>();
-		m.put("success", true);
-		return m;
-	}
 	
 	/**
 	 * Delete all entities.

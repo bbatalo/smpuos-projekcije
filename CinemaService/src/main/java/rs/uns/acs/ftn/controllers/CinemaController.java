@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,33 +39,26 @@ public class CinemaController extends AbstractRESTController {
 	}
 	
 
-//	@RequestMapping(method = RequestMethod.POST, 
-//					consumes = { MediaType.APPLICATION_JSON_VALUE })
-//	public Map<String, Object> save(@RequestBody Cinema newCinema) {
-//		
-//		Cinema created = cinemaService.save(newCinema);
-//		Map<String, Object> m = new HashMap<String, Object>();
-//		m.put("success", true);
-//		m.put("created", created);
-//		return m;
-//	}
-	
 	@RequestMapping(method = RequestMethod.POST, 
-			consumes = { MediaType.APPLICATION_JSON_VALUE })
-	public Map<String, Object> save(@RequestBody CinemaAuthDTO newCinema) {
-
+					consumes = { MediaType.APPLICATION_JSON_VALUE })
+	public Map<String, Object> save(@RequestBody Cinema newCinema) {
 		
+		//autentifikovati i iskoristiti CinemaAuthDTO
 		
-		Cinema created = cinemaService.save(newCinema.getCinema());
+		Cinema created = cinemaService.save(newCinema);
 		Map<String, Object> m = new HashMap<String, Object>();
 		m.put("success", true);
 		m.put("created", created);
 		return m;
 	}
 	
-	@FeignClient("user-service")//the application.name for the user service
-	public interface UserServiceClient {
-		@RequestMapping(value = "users/checkUser", method = RequestMethod.GET)// the endpoint which will be balanced over
-		Boolean checkUser(@RequestParam(name = "userId") String userId);// the method specification must be the same as for users/checkUser
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public Map<String, Object> delete(@PathVariable String id) {
+		
+		cinemaService.delete(id);
+		Map<String, Object> m = new HashMap<String, Object>();
+		m.put("success", true);
+		return m;
 	}
+	
 }
