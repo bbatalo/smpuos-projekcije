@@ -1,20 +1,20 @@
 package rs.uns.acs.ftn.controllers;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.uns.acs.ftn.forms.ActivationForm;
+import rs.uns.acs.ftn.forms.LoginForm;
+import rs.uns.acs.ftn.forms.SignUpForm;
 import rs.uns.acs.ftn.models.User;
 import rs.uns.acs.ftn.services.UserService;
 
@@ -35,36 +35,29 @@ public class UserController extends AbstractRESTController<User, String>{
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public User login(
-			@RequestParam(name = "username") String username,
-			@RequestParam(name = "password") String password){
-		return userService.login(username, password);
+			@RequestBody LoginForm loginForm){
+		return userService.login(loginForm.getUsername(), loginForm.getPassword());
 	}
 	
 	@RequestMapping(value = "/sign_up", method = RequestMethod.POST)
 	public User signUp(
-			@RequestParam(name = "username") String username,
-			@RequestParam(name = "password") String password,
-			@RequestParam(name = "firstName") Optional<String> firstName,
-			@RequestParam(name = "lastName") Optional<String> lastName,
-			@RequestParam(name = "dateOfBirth") Optional<Date> dateOfBirth,
-			@RequestParam(name = "gender") Optional<User.Gender> gender,
-			@RequestParam(name = "location") Optional<GeoJsonPoint> location){
-		return userService.signUp(username, password, firstName.orElse(null), lastName.orElse(null),
-				dateOfBirth.orElse(null), gender.orElse(null), location.orElse(null));
+			@RequestBody SignUpForm signUpForm){
+		return userService.signUp(signUpForm.getUsername(), signUpForm.getPassword(),
+				signUpForm.getFirstName(), signUpForm.getLastName(),
+				signUpForm.getDateOfBirth(), signUpForm.getGender(), 
+				signUpForm.getLocation());
 	}
 	
 	@RequestMapping(value = "/activate_user", method = RequestMethod.POST)
 	public void activateUser(
-			@RequestParam(name = "username") String username,
-			@RequestParam(name = "requester_id") String requesterId){
-		userService.activateUser(username, requesterId);
+			@RequestBody ActivationForm activationForm){
+		userService.activateUser(activationForm.getUsername(), activationForm.getRequesterId());
 	}
 	
 	@RequestMapping(value = "/deactivate_user", method = RequestMethod.POST)
 	public void deactivateUser(
-			@RequestParam(name = "username") String username,
-			@RequestParam(name = "requester_id") String requesterId){
-		userService.deactivateUser(username, requesterId);
+			@RequestBody ActivationForm activationForm){
+		userService.deactivateUser(activationForm.getUsername(), activationForm.getRequesterId());
 	}
 	
 	@RequestMapping(value = "/active", method = RequestMethod.GET)
@@ -100,11 +93,11 @@ public class UserController extends AbstractRESTController<User, String>{
 	
 	@RequestMapping(value = "/get_users_near_point", method = RequestMethod.GET)
 	public List<User> getUsersNearPoint(
-			@RequestParam(name = "point_x") double point_x,
-			@RequestParam(name = "point_y") double point_y,
+			@RequestParam(name = "point_x") double pointX,
+			@RequestParam(name = "point_y") double pointY,
 			@RequestParam(name = "distance") double raw_distance
 	){
-		Point point = new Point(point_x, point_y);
+		Point point = new Point(pointX, pointY);
 		Distance distance = new Distance(raw_distance, Metrics.KILOMETERS);
 		
 		return userService.findByLocationNear(point, distance);
