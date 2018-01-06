@@ -1,6 +1,8 @@
 package rs.uns.acs.ftn.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Distance;
@@ -35,7 +37,7 @@ public class CinemaService extends AbstractCRUDService<Cinema, String> {
 		return cinemaRepository.findByLocationNear(new Point(x, y), dist);
 	}
 	
-	public CinemaHallDTO findCinemaHall(String cinemaId, String hallId) {
+	public Map<String, Object> findCinemaHall(String cinemaId, String hallId) {
 		Cinema cin = cinemaRepository.findById(cinemaId);
 		String hallLabel = null;
 		for (ProjectionHall h : cin.getHalls()) {
@@ -47,8 +49,10 @@ public class CinemaService extends AbstractCRUDService<Cinema, String> {
 		if (hallLabel == null) {
 			hallLabel = "error: not found";
 		}
+		Map<String, Object> m = new HashMap<String, Object>();
+		m.put("cinemaName", cin.getName());
+		m.put("hallLabel", hallLabel);
 		
-		CinemaHallDTO dto = new CinemaHallDTO(cin.getName(), hallLabel);
-		return dto;
+		return m;
 	}
 }

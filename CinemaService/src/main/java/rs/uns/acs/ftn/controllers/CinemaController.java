@@ -95,12 +95,12 @@ public class CinemaController extends AbstractRESTController {
 	}
 	
 	@RequestMapping(value = "/cinema_hall_name", method = RequestMethod.GET)
-	public CinemaHallDTO getCinemaHallName(@RequestParam(name = "cinemaId") String cinemaId,
+	public Map<String, Object> getCinemaHallName(@RequestParam(name = "cinemaId") String cinemaId,
 										   @RequestParam(name = "hallId") String hallId) {
 		
 		
-		CinemaHallDTO dto = cinemaService.findCinemaHall(cinemaId, hallId);
-		return dto;
+		Map<String, Object> m = cinemaService.findCinemaHall(cinemaId, hallId);
+		return m;
 	}
 	
 	
