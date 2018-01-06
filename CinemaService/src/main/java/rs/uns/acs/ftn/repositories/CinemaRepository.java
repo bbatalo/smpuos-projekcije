@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
@@ -21,5 +23,11 @@ public interface CinemaRepository extends MongoRepository<Cinema, String> {
 	
 	@Query("{'name': {$regex: ?0}}")
 	List<Cinema> findAllByName(String name);
+//	
+//	@Query("{'address.location': {'$nearSphere': [?0, ?1], '$maxDistance': ?2}}")
+//	List<Cinema> findByLocationNear(Double x, Double y, Distance distance);
+
+	List<Cinema> findByLocationNear(Point point, Distance distance);
+	
 
 }

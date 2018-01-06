@@ -80,5 +80,18 @@ public class CinemaController extends AbstractRESTController {
 		return m;
 	}
 	
+	@RequestMapping(value = "/cinemas_by_location", method = RequestMethod.GET)
+	public Map<String, Object> findAllByLocation(@RequestParam(name = "x") Double x,
+												 @RequestParam(name = "y") Double y,
+												 @RequestParam(name = "dist", defaultValue = "1") Double distance) {
+		
+		
+		List<Cinema> cinemas = cinemaService.findAllByLocation(x, y, distance);
+		Map<String, Object> m = new HashMap<String, Object>();
+		m.put("success", true);
+		m.put("cinemas", cinemas);
+		return m;
+	}
+	
 	
 }

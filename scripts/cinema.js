@@ -2,12 +2,17 @@ var insertDefaultDataCinema = function(db){
     db.cinema.insert([
         {
             "name": "Arena",
-            "address": {
-                "address": "Novi Sad, Srbija",
-                "location": {
+            // "address": {
+            //     "address": "Novi Sad, Srbija",
+            //     "location": {
+            //         "type": "Point",
+            //         "coordinates": [45.0, 22.0]
+            //     }
+            // },
+            "address": "Novi Sad, Srbija",
+            "location": {
                     "type": "Point",
                     "coordinates": [45.0, 22.0]
-                }
             },
             "halls": [
                 {
@@ -30,12 +35,17 @@ var insertDefaultDataCinema = function(db){
         },
         {
             "name": "CinCity",
-            "address": {
-                "address": "Novi Sad, Srbija",
-                "location": {
-                    "type": "Point",
-                    "coordinates": [44.8, 22.0]
-                }
+            // "address": {
+            //     "address": "Novi Sad, Srbija",
+            //     "location": {
+            //         "type": "Point",
+            //         "coordinates": [44.8, 22.0]
+            //     }
+            // },
+            "address": "Novi Sad, Srbija",
+            "location": {
+                "type": "Point",
+                "coordinates": [44.8, 22.0]
             },
             "halls": [
                 {
