@@ -19,4 +19,7 @@ public class CinemaService extends AbstractCRUDService<Cinema, String> {
 		this.cinemaRepository = cinemaRepository;
 	}
 	
+	public List<Cinema> findAllByName(String name) {
+		return cinemaRepository.findAllByName(name);
+	}
 }

@@ -77,34 +77,7 @@ public abstract class AbstractRESTController<T, ID extends Serializable> {
 	}
 	
 
-	/**
-	 * Update desired entity.
-	 * @param id Entity identifier.
-	 * @param newEntity Updated entity.
-	 * @return Updated entity object.
-	 */
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = { MediaType.APPLICATION_JSON_VALUE })
-	public Map<String, Object> update(@PathVariable ID id, @RequestBody T newEntity) {
-		logger.debug("update() - {} - {} - {}", id, newEntity, newEntity.getClass());
-		
-		T updated = service.update(id, newEntity);
-		Map<String, Object> m = new HashMap<String, Object>();
-		m.put("success", true);
-		m.put("updated", updated);
-		return m;
-	}
 	
-	/**
-	 * Delete all entities.
-	 * @return Operation success flag.
-	 */
-	@RequestMapping(method = RequestMethod.DELETE)
-	public Map<String, Object> deleteAll() {		
-		service.deleteAll();
-		Map<String, Object> m = new HashMap<String, Object>();
-		m.put("success", true);
-		return m;
-	}
 	
 	protected Map<String, Object> prepareListPage(Page<T> page){
 		List<T> results = new ArrayList<T>();
