@@ -118,6 +118,16 @@ public class UserService extends AbstractCRUDService<User, String>{
 	public User findById(String id) {
 		return userRepository.findById(id);
 	}
+	
+	public String getType(String username) {
+		User user = userRepository.findByUsername(username);
+		
+		if (user != null) {
+			return user.getType().name();
+		} else {
+			return null;
+		}
+	}
 
 	public List<User> findByFirstNameAndLastName(String firstName, String lastName) {
 		return userRepository.findByFirstNameAndLastName(firstName, lastName);

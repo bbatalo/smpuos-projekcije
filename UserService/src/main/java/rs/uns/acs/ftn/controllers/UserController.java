@@ -33,14 +33,14 @@ public class UserController extends AbstractRESTController<User, String>{
 		this.userService = userService;
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public User login(
 			@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password){
 		return userService.login(username, password);
 	}
 	
-	@RequestMapping(value = "/sign_up", method = RequestMethod.GET)
+	@RequestMapping(value = "/sign_up", method = RequestMethod.POST)
 	public User signUp(
 			@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password,
@@ -53,14 +53,14 @@ public class UserController extends AbstractRESTController<User, String>{
 				dateOfBirth.orElse(null), gender.orElse(null), location.orElse(null));
 	}
 	
-	@RequestMapping(value = "/activate_user", method = RequestMethod.GET)
+	@RequestMapping(value = "/activate_user", method = RequestMethod.POST)
 	public void activateUser(
 			@RequestParam(name = "username") String username,
 			@RequestParam(name = "requester_id") String requesterId){
 		userService.activateUser(username, requesterId);
 	}
 	
-	@RequestMapping(value = "/deactivate_user", method = RequestMethod.GET)
+	@RequestMapping(value = "/deactivate_user", method = RequestMethod.POST)
 	public void deactivateUser(
 			@RequestParam(name = "username") String username,
 			@RequestParam(name = "requester_id") String requesterId){
@@ -108,6 +108,13 @@ public class UserController extends AbstractRESTController<User, String>{
 		Distance distance = new Distance(raw_distance, Metrics.KILOMETERS);
 		
 		return userService.findByLocationNear(point, distance);
+	}
+	
+	@RequestMapping(value = "/get_type", method = RequestMethod.GET)
+	public String getType(
+			@RequestParam(name = "username") String username
+	){
+		return userService.getType(username);
 	}
 
 }
