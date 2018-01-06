@@ -1,10 +1,10 @@
-
 var connection = new Mongo();
 
 var dropDatabases = function(conn, sufix){
 	conn.getDB("userservice-" + sufix).dropDatabase();
 	conn.getDB("projekcijeservice-" + sufix).dropDatabase();	
 	conn.getDB("movieservice-" + sufix).dropDatabase();
+	conn.getDB("cinemaservice-" + sufix).dropDatabase();
 };
 
 var createDatabasesAndCollections = function(conn, sufix){
@@ -16,11 +16,15 @@ var createDatabasesAndCollections = function(conn, sufix){
 	
 	var movieserviceDb = conn.getDB("movieservice-" + sufix);
 	movieserviceDb.createCollection("movie");
+	
+	var cinemaserviceDb = conn.getDB("cinemaservice-" + sufix);
+	cinemaserviceDb.createCollection("cinema");
 };
 
 load("E:/AA Github/smpuos-projekcije/scripts/user.js");
 load("E:/AA Github/smpuos-projekcije/scripts/projekcije.js");
 load("movie.js");
+load("cinema.js")
 
 
 var insertDefaultData = function(conn, sufix){
@@ -32,6 +36,9 @@ var insertDefaultData = function(conn, sufix){
 	
 	var movieserviceDb = conn.getDB("movieservice-" + sufix);
 	insertDefaultDataMovie(movieserviceDb);
+	
+	var cinemaserviceDb = conn.getDB("cinemaservice-" + sufix);
+	insertDefaultDataCinema(cinemaserviceDb);
 };
 
 dropDatabases(connection,"dpy");
