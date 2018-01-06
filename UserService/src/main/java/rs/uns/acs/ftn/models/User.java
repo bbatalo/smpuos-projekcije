@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @SuppressWarnings("serial")
@@ -30,6 +31,8 @@ public class User implements Serializable{
 	private GeoJsonPoint location;
 	private Status status;
 	private Type type;
+	@Indexed
+	private String sessionId;
 	
 	public User() {
 		super();
@@ -137,6 +140,14 @@ public class User implements Serializable{
 
 	public void setType(Type type) {
 		this.type = type;
+	}
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 
 	@Override

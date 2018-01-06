@@ -3,16 +3,16 @@ package rs.uns.acs.ftn.forms;
 public class ActivationForm {
 
 	private String username;
-	private String requesterId;
+	private String sessionId;
 	
 	public ActivationForm() {
 		super();
 	}
 	
-	public ActivationForm(String username, String requesterId) {
+	public ActivationForm(String username, String sessionId) {
 		super();
 		this.username = username;
-		this.requesterId = requesterId;
+		this.sessionId = sessionId;
 	}
 	
 	public String getUsername() {
@@ -23,12 +23,12 @@ public class ActivationForm {
 		this.username = username;
 	}
 	
-	public String getRequesterId() {
-		return requesterId;
+	public String getSessionId() {
+		return sessionId;
 	}
 	
-	public void setRequesterId(String requesterId) {
-		this.requesterId = requesterId;
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 	
 }

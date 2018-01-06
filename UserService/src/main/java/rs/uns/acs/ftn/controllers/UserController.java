@@ -34,14 +34,17 @@ public class UserController extends AbstractRESTController<User, String>{
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public User login(
-			@RequestBody LoginForm loginForm){
+	public String login(@RequestBody LoginForm loginForm){
 		return userService.login(loginForm.getUsername(), loginForm.getPassword());
+	}
+
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public void logout(@RequestBody String sessionId){
+		userService.logout(sessionId);
 	}
 	
 	@RequestMapping(value = "/sign_up", method = RequestMethod.POST)
-	public User signUp(
-			@RequestBody SignUpForm signUpForm){
+	public User signUp(@RequestBody SignUpForm signUpForm){
 		return userService.signUp(signUpForm.getUsername(), signUpForm.getPassword(),
 				signUpForm.getFirstName(), signUpForm.getLastName(),
 				signUpForm.getDateOfBirth(), signUpForm.getGender(), 
@@ -49,37 +52,31 @@ public class UserController extends AbstractRESTController<User, String>{
 	}
 	
 	@RequestMapping(value = "/activate_user", method = RequestMethod.POST)
-	public void activateUser(
-			@RequestBody ActivationForm activationForm){
-		userService.activateUser(activationForm.getUsername(), activationForm.getRequesterId());
+	public void activateUser(@RequestBody ActivationForm activationForm){
+		userService.activateUser(activationForm.getUsername(), activationForm.getSessionId());
 	}
 	
 	@RequestMapping(value = "/deactivate_user", method = RequestMethod.POST)
-	public void deactivateUser(
-			@RequestBody ActivationForm activationForm){
-		userService.deactivateUser(activationForm.getUsername(), activationForm.getRequesterId());
+	public void deactivateUser(@RequestBody ActivationForm activationForm){
+		userService.deactivateUser(activationForm.getUsername(), activationForm.getSessionId());
 	}
 	
 	@RequestMapping(value = "/active", method = RequestMethod.GET)
-	public List<User> findAllActive(
-			@RequestParam(name = "requester_id") String requesterId){
+	public List<User> findAllActive(@RequestParam(name = "session_id") String sessionId){
 		User.Status status = User.Status.ACTIVE;
 		
-		return userService.findByStatus(status, requesterId);
+		return userService.findByStatus(status, sessionId);
 	}
 	
 	@RequestMapping(value = "/inactive", method = RequestMethod.GET)
-	public List<User> findAllInactive(
-			@RequestParam(name = "requester_id") String requester_id){
+	public List<User> findAllInactive(@RequestParam(name = "session_id") String sessionId){
 		User.Status status = User.Status.INACTIVE;
 		
-		return userService.findByStatus(status, requester_id);
+		return userService.findByStatus(status, sessionId);
 	}
 	
 	@RequestMapping(value = "/get_user", method = RequestMethod.GET)
-	public User getUser(
-			@RequestParam(name = "id") String id
-	){
+	public User getUser(@RequestParam(name = "id") String id){
 		return userService.findById(id);
 	}
 	
@@ -103,10 +100,18 @@ public class UserController extends AbstractRESTController<User, String>{
 		return userService.findByLocationNear(point, distance);
 	}
 	
+	@RequestMapping(value = "/get_username_by_session_id", method = RequestMethod.GET)
+	public String getUsernameBySessionId(@RequestParam(name = "sessionId") String sessionId){
+		return userService.getUsernameBySessionId(sessionId);
+	}
+	
+	@RequestMapping(value = "/get_type_by_session_id", method = RequestMethod.GET)
+	public String getTypeBySessionId(@RequestParam(name = "sessionId") String sessionId){
+		return userService.getTypeBySessionId(sessionId);
+	}
+	
 	@RequestMapping(value = "/get_type", method = RequestMethod.GET)
-	public String getType(
-			@RequestParam(name = "username") String username
-	){
+	public String getType(@RequestParam(name = "username") String username){
 		return userService.getType(username);
 	}
 

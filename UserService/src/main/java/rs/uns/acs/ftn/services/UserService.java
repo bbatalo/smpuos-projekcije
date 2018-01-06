@@ -3,6 +3,7 @@ package rs.uns.acs.ftn.services;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,17 +27,30 @@ public class UserService extends AbstractCRUDService<User, String>{
 		this.userRepository = userRepository;
 	}
 	
-	public User login(String username, String password){
+	public String login(String username, String password){
 		User.Status status = User.Status.ACTIVE;
 		User user = userRepository.findByUsernameAndStatus(username, status);
 		
 		if(user != null){
 			if(user.getPassword().equals(password)){
-				return user;
+				String sessionId = UUID.randomUUID().toString();				
+				user.setSessionId(sessionId);
+				userRepository.save(user);
+				
+				return sessionId;
 			}
 		}
 		
 		return null;
+	}
+	
+	public void logout(String sessionId){
+		User user = userRepository.findBySessionId(sessionId);
+		
+		if(user != null) {
+			user.setSessionId(null);
+			userRepository.save(user);
+		}
 	}
 
 	public User signUp(String username, String password, String firstName, String lastName,
@@ -59,10 +73,10 @@ public class UserService extends AbstractCRUDService<User, String>{
 		return user;
 	}
 	
-	public void activateUser(String username, String requesterId) {
-		User requester = userRepository.findById(requesterId);
+	public void activateUser(String username, String sessionId) {
+		User requester = userRepository.findBySessionId(sessionId);
 		
-		if (requester.getType() == User.Type.ADMINISTRATOR) {
+		if (requester != null && requester.getType() == User.Type.ADMINISTRATOR) {
 			User.Status oldStatus = User.Status.INACTIVE;
 			User user = userRepository.findByUsernameAndStatus(username, oldStatus);
 			
@@ -76,10 +90,10 @@ public class UserService extends AbstractCRUDService<User, String>{
 		}
 	}
 	
-	public void deactivateUser(String username, String requesterId) {
-		User requester = userRepository.findById(requesterId);
+	public void deactivateUser(String username, String sessionId) {
+		User requester = userRepository.findBySessionId(sessionId);
 		
-		if (requester.getType() == User.Type.ADMINISTRATOR) {
+		if (requester != null && requester.getType() == User.Type.ADMINISTRATOR) {
 			User.Status oldStatus = User.Status.ACTIVE;
 			User user = userRepository.findByUsernameAndStatus(username, oldStatus);
 			
@@ -93,10 +107,10 @@ public class UserService extends AbstractCRUDService<User, String>{
 		}
 	}
 	
-	public List<User> findByStatus(User.Status status, String requesterId){
-		User requester = userRepository.findById(requesterId);
+	public List<User> findByStatus(User.Status status, String sessionId){
+		User requester = userRepository.findBySessionId(sessionId);
 		
-		if (requester.getType() == User.Type.ADMINISTRATOR) {
+		if (requester != null && requester.getType() == User.Type.ADMINISTRATOR) {
 			return userRepository.findByStatus(status);
 		} else {
 			return new ArrayList<User>();
@@ -117,6 +131,30 @@ public class UserService extends AbstractCRUDService<User, String>{
 
 	public User findById(String id) {
 		return userRepository.findById(id);
+	}
+	
+	public User getBySessionId(String sessionId) {
+		return userRepository.findBySessionId(sessionId);
+	}
+	
+	public String getUsernameBySessionId(String sessionId) {
+		User user = userRepository.findBySessionId(sessionId);
+		
+		if (user != null) {
+			return user.getUsername();
+		} else {
+			return null;
+		}
+	}
+	
+	public String getTypeBySessionId(String sessionId) {
+		User user = userRepository.findBySessionId(sessionId);
+		
+		if (user != null) {
+			return user.getType().name();
+		} else {
+			return null;
+		}
 	}
 	
 	public String getType(String username) {
