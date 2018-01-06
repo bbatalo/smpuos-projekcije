@@ -1,8 +1,8 @@
 package rs.uns.acs.ftn.models;
 
 import java.io.Serializable;
+import java.util.Collection;
 
-import org.apache.tomcat.jni.Address;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,20 +12,21 @@ public class Cinema implements Serializable {
 
 	@Id
 	private String id;
-	
 	private String name;
-	
 	private Address address;
-	
+	private Collection<ProjectionHall> halls;
 	private int grade;
 	
-	public Cinema() {}
+	public Cinema() {
+		
+	}
 
-	public Cinema(String name, Address address, int grade) {
+	public Cinema(String name, Address address, int grade, Collection<ProjectionHall> halls) {
 		super();
 		this.name = name;
 		this.address = address;
 		this.grade = grade;
+		this.halls = halls;
 	}
 
 	public String getId() {
@@ -58,6 +59,14 @@ public class Cinema implements Serializable {
 
 	public void setGrade(int grade) {
 		this.grade = grade;
+	}
+
+	public Collection<ProjectionHall> getHalls() {
+		return halls;
+	}
+
+	public void setHalls(Collection<ProjectionHall> halls) {
+		this.halls = halls;
 	}
 	
 	
