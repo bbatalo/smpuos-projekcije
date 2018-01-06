@@ -29,5 +29,4 @@ public interface CinemaRepository extends MongoRepository<Cinema, String> {
 
 	List<Cinema> findByLocationNear(Point point, Distance distance);
 	
-
 }

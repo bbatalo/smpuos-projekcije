@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.uns.acs.ftn.dto.CinemaHallDTO;
 import rs.uns.acs.ftn.models.Cinema;
 import rs.uns.acs.ftn.services.CinemaService;
 
@@ -91,6 +92,15 @@ public class CinemaController extends AbstractRESTController {
 		m.put("success", true);
 		m.put("cinemas", cinemas);
 		return m;
+	}
+	
+	@RequestMapping(value = "/cinema_hall_name", method = RequestMethod.GET)
+	public CinemaHallDTO getCinemaHallName(@RequestParam(name = "cinemaId") String cinemaId,
+										   @RequestParam(name = "hallId") String hallId) {
+		
+		
+		CinemaHallDTO dto = cinemaService.findCinemaHall(cinemaId, hallId);
+		return dto;
 	}
 	
 	
