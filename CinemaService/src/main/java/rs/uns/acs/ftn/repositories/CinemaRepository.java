@@ -13,5 +13,7 @@ public interface CinemaRepository extends MongoRepository<Cinema, String> {
 	Cinema findById(String id);
 	
 	Cinema findByName(String name);
+	
+	Cinema save(Cinema cinema);
 
 }

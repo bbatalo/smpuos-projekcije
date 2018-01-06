@@ -1,5 +1,6 @@
 package rs.uns.acs.ftn.models;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 public class ProjectionHall {
@@ -13,7 +14,7 @@ public class ProjectionHall {
 	private HallType type;
 	
 	public ProjectionHall() {
-		
+		this.id = ObjectId.get().toString();
 	}
 
 	public ProjectionHall(String label, int capacity, int rowCount, int colCount, HallType type) {

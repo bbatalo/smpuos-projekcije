@@ -76,21 +76,6 @@ public abstract class AbstractRESTController<T, ID extends Serializable> {
 		return service.findOne(id);
 	}
 	
-	/**
-	 * Save entity to a database.
-	 * @param newEntity Entity to be saved.
-	 * @return Saved entity object.
-	 */
-	@RequestMapping(method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE })
-	public Map<String, Object> save(@RequestBody T newEntity) {
-		logger.debug("create() - {} - {}", newEntity, newEntity.getClass());
-		
-		T created = service.save(newEntity);
-		Map<String, Object> m = new HashMap<String, Object>();
-		m.put("success", true);
-		m.put("created", created);
-		return m;
-	}
 
 	/**
 	 * Update desired entity.
