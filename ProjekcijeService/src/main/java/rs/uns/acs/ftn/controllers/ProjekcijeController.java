@@ -8,6 +8,7 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,24 +38,115 @@ public class ProjekcijeController extends AbstractRESTController<Projekcije, Str
 	/* ------------------------------ ADMIN ---------------------------- */
 
 	@RequestMapping(method = RequestMethod.POST, consumes =	MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<Projekcije> create(@RequestBody Projekcije newProj,
+	public ResponseEntity<Projekcije> create(@RequestBody Projekcije newEntity,
 			@RequestParam("sessionId") String sessionId) {
 
-		return projekcijeService.createProjection(newProj, sessionId);
+		// ako korisnik nije tipa admin, prekini aktivnost
+		if (!isAdmin(projekcijeService.getTypeBySessionIdLoad(sessionId))){
+			return new ResponseEntity<Projekcije>(newEntity, HttpStatus.FORBIDDEN);			
+		}
+	
+		// preuzmi nazive bisokopa i sale
+		Map<String, Object> responseCinemaHall = projekcijeService.getCinemaHallName(newEntity.getCinemaId(), newEntity.getHallId());
+		newEntity.setCinemaName((String) responseCinemaHall.get("cinemaName"));
+		newEntity.setHallLabel((String) responseCinemaHall.get("hallLabel"));
+		
+		// preuzmi naziv filma
+		String movieName = projekcijeService.getMovieNameLoad(newEntity.getMovieId());
+		newEntity.setMovieName(movieName);
+				
+		// posalji servisu da sacuva
+		projekcijeService.save(newEntity);
+		
+		return new ResponseEntity<Projekcije>(newEntity, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes =	MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<Projekcije> update(@RequestBody Projekcije newProj,
+	public ResponseEntity<Projekcije> update(@RequestBody Projekcije newEntity,
 			@RequestParam("sessionId") String sessionId, @PathVariable("id") String id) {
 
-		return projekcijeService.updateProjection(id, newProj, sessionId);
+		// ako korisnik nije tipa admin, prekini aktivnost
+		if (!isAdmin(projekcijeService.getTypeBySessionIdLoad(sessionId))){
+			return new ResponseEntity<Projekcije>(newEntity, HttpStatus.FORBIDDEN);			
+		}		
+		
+		Projekcije oldEntity = projekcijeService.findOne(id);
+		// ako nije pronasao tu projekciju, prekini aktivnost
+		if (oldEntity == null) {
+			return new ResponseEntity<Projekcije>(newEntity, HttpStatus.FORBIDDEN);
+		}		
+
+		if(newEntity.getDate() == null){
+			newEntity.setDate(oldEntity.getDate());
+		}	
+		
+		if(newEntity.getStatus() == null){
+			newEntity.setStatus(oldEntity.getStatus());
+		}
+		
+		if(newEntity.getType() == null){
+			newEntity.setType(oldEntity.getType());
+		}
+		
+		// ako se menja bioskop (da bi se promenila sala potreban je kljuc bioskopa)
+		if (newEntity.getCinemaId() == null) {
+			newEntity.setCinemaId(oldEntity.getCinemaId());
+			newEntity.setCinemaName(oldEntity.getCinemaName());
+			newEntity.setHallId(oldEntity.getHallId());
+			newEntity.setHallLabel(oldEntity.getHallLabel());
+		}
+		else
+		{
+			Map<String, Object> responseCinemaHall = projekcijeService.getCinemaHallName(newEntity.getCinemaId(), newEntity.getHallId());
+			newEntity.setCinemaName((String) responseCinemaHall.get("cinemaName"));
+			newEntity.setHallLabel((String) responseCinemaHall.get("hallLabel"));				
+		}		
+
+		// ako se menja film
+		if (newEntity.getMovieId() == null) {
+			newEntity.setMovieId(oldEntity.getMovieId());
+			newEntity.setMovieName(oldEntity.getMovieName());			
+		}
+		else {
+			String movieName = projekcijeService.getMovieNameLoad(newEntity.getMovieId());
+			newEntity.setMovieName(movieName);
+		}		
+		
+		Projekcije izmenjena = projekcijeService.update(id, newEntity);
+		
+		return new ResponseEntity<Projekcije>(izmenjena, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Boolean> delete(@RequestParam("sessionId") String sessionId, @PathVariable("id") String id) {
 
-		return projekcijeService.deleteProjection(id, sessionId);
+		// ako korisnik nije tipa admin, prekini aktivnost
+		if (!isAdmin(projekcijeService.getTypeBySessionIdLoad(sessionId))) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.FORBIDDEN);
+		}
+
+		projekcijeService.delete(id);
+
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
+	
+	/**
+	 * Method compare if given string is equal to "ADMINISTRATOR"
+	 * 
+	 * @param type
+	 * @return if user type is administrator
+	 */
+	private boolean isAdmin(String type) {
+		if (type == null) {
+			return false;
+		}
+
+		if (type.equals("ADMINISTRATOR")) {
+			return true;
+		}
+
+		return false;
+	}	
 
 	/* ------------------------------ KORISNIK ------------------------- */
 
@@ -94,14 +186,16 @@ public class ProjekcijeController extends AbstractRESTController<Projekcije, Str
 	public interface UserServiceClient {
 		@RequestMapping(value = "users/get_type_by_session_id", method = RequestMethod.GET) // the endpoint which will be balanced over
 		
-		String getTypeBySessionId(@RequestParam(name = "sessionId") String sessionId);// the method specification must be the same as for users/get_type_by_session_id
+		String getTypeBySessionId(@RequestParam(name = "sessionId") String sessionId);// the method specification must
+																						// be the same as for
+																						// users/get_type_by_session_id
 	}
 
 	@FeignClient("movie-service")
 	public interface MovieServiceClient {
 		@RequestMapping(value = "movies/getMovieName", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN, produces = MediaType.TEXT_PLAIN)
 
-		ResponseEntity<String> getMovieName(@RequestParam(name = "movieId") String movieId);
+		String getMovieName(@RequestBody String movieId);
 	}
 
 	@FeignClient("cinema-service")
