@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,10 +42,14 @@ public class CinemaController extends AbstractRESTController {
 
 	@RequestMapping(method = RequestMethod.POST, 
 					consumes = { MediaType.APPLICATION_JSON_VALUE })
-	public Map<String, Object> save(@RequestBody Cinema newCinema) {
+	public Map<String, Object> save(@RequestParam(name = "sessionId") String sessionId,
+									@RequestBody Cinema newCinema) {
 		
-		//autentifikovati i iskoristiti CinemaAuthDTO
-		
+		if (!isAdmin(cinemaService.getUserType(sessionId))) {
+			Map<String, Object> m = new HashMap<String, Object>();
+			m.put("not authorized", true);
+			return m;
+		}
 		Cinema created = cinemaService.save(newCinema);
 		Map<String, Object> m = new HashMap<String, Object>();
 		m.put("success", true);
@@ -53,7 +58,15 @@ public class CinemaController extends AbstractRESTController {
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public Map<String, Object> delete(@PathVariable String id) {
+	public Map<String, Object> delete(@RequestParam(name = "sessionId") String sessionId,
+									  @PathVariable String id) {
+		
+
+		if (!isAdmin(cinemaService.getUserType(sessionId))) {
+			Map<String, Object> m = new HashMap<String, Object>();
+			m.put("not authorized", true);
+			return m;
+		}
 		
 		cinemaService.delete(id);
 		Map<String, Object> m = new HashMap<String, Object>();
@@ -98,10 +111,40 @@ public class CinemaController extends AbstractRESTController {
 	public Map<String, Object> getCinemaHallName(@RequestParam(name = "cinemaId") String cinemaId,
 										   @RequestParam(name = "hallId") String hallId) {
 		
-		
 		Map<String, Object> m = cinemaService.findCinemaHall(cinemaId, hallId);
 		return m;
 	}
 	
+	@FeignClient("user-service")
+	public interface UserServiceClient {
+		@RequestMapping(value = "users/get_type_by_session_id", method = RequestMethod.GET)
+		
+		String getTypeBySessionId(@RequestParam(name = "sessionId") String sessionId);
+	}
 	
+	//private methods
+	
+	private boolean isAdmin(String type) {
+		if (type == null) {
+			return false;
+		}
+		
+		if (type.equals("ADMINISTRATOR")) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	private boolean isRegistered(String type) {
+		if (type == null) {
+			return false;
+		}
+		
+		if (type.equals("REGISTERED")) {
+			return true;
+		}
+		
+		return false;
+	}
 }

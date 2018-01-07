@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Implementation-Title: ProjekcijeService
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: Dusan
+Built-By: Bojan-PC
 Implementation-Vendor-Id: rs.uns.acs.ftn
 Build-Jdk: 1.8.0_151
 Implementation-URL: http://projects.spring.io/spring-boot/ProjekcijeSe
