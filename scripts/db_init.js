@@ -21,8 +21,10 @@ var createDatabasesAndCollections = function(conn, sufix){
 	cinemaserviceDb.createCollection("cinema");
 };
 
-load("E:/AA Github/smpuos-projekcije/scripts/user.js");
-load("E:/AA Github/smpuos-projekcije/scripts/projekcije.js");
+// load("E:/AA Github/smpuos-projekcije/scripts/user.js");
+// load("E:/AA Github/smpuos-projekcije/scripts/projekcije.js");
+load("user.js");
+load("projekcije.js");
 load("movie.js");
 load("cinema.js")
 

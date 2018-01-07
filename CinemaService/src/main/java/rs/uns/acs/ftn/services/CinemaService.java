@@ -39,18 +39,23 @@ public class CinemaService extends AbstractCRUDService<Cinema, String> {
 	
 	public Map<String, Object> findCinemaHall(String cinemaId, String hallId) {
 		Cinema cin = cinemaRepository.findById(cinemaId);
+		String cinName = "";
 		String hallLabel = null;
-		for (ProjectionHall h : cin.getHalls()) {
-			if (h.getId().equals(hallId)) {
-				hallLabel = h.getLabel();
-				break;
+		
+		if (cin != null) {
+			cinName = cin.getName();
+			for (ProjectionHall h : cin.getHalls()) {
+				if (h.getId().equals(hallId)) {
+					hallLabel = h.getLabel();
+					break;
+				}
 			}
 		}
 		if (hallLabel == null) {
-			hallLabel = "error: not found";
+			hallLabel = "";
 		}
 		Map<String, Object> m = new HashMap<String, Object>();
-		m.put("cinemaName", cin.getName());
+		m.put("cinemaName", cinName);
 		m.put("hallLabel", hallLabel);
 		
 		return m;
