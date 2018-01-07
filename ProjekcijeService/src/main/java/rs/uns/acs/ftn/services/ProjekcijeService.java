@@ -2,9 +2,11 @@ package rs.uns.acs.ftn.services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,11 +28,9 @@ public class ProjekcijeService extends AbstractCRUDService<Projekcije, String> {
 	@Autowired
 	private UserServiceClient userServiceClient; // feign client
 
-	@SuppressWarnings("unused")
 	@Autowired
 	private CinemaServiceClient cinemaServiceClient; // feign client
 
-	@SuppressWarnings("unused")
 	@Autowired
 	private MovieServiceClient movieServiceClient; // feign client
 
@@ -42,72 +42,104 @@ public class ProjekcijeService extends AbstractCRUDService<Projekcije, String> {
 	}
 
 	/* ------------------------------ ADMIN ---------------------------- */
-	// TO DO...
-	public Projekcije createProjection(Projekcije newEntity, String sessionId) {
-		System.out.println("Create sa entitetom");
+
+	public ResponseEntity<Projekcije> createProjection(Projekcije newEntity, String sessionId) {
 
 		// ako korisnik nije tipa admin, prekini aktivnost
 		if (!isAdmin(userServiceClient.getTypeBySessionId(sessionId))) {
-			return null;
+			return new ResponseEntity<Projekcije>(newEntity, HttpStatus.FORBIDDEN);
 		}
 
 		// proveri da li su bisokop i sala validni
+		Map<String, Object> responseCinemaHall = cinemaServiceClient.getCinemaHallName(newEntity.getCinemaId(),
+				newEntity.getHallId());
+		String cinemaName = (String) responseCinemaHall.get("cinemaName");
+		String hallLabel = (String) responseCinemaHall.get("hallLabel");
+		if (cinemaName == null) {
+			return new ResponseEntity<Projekcije>(newEntity, HttpStatus.FORBIDDEN);
+		}
+		newEntity.setCinemaName(cinemaName);
+		newEntity.setHallLabel(hallLabel); // upisujem i kada mi posalje "error: not found" !!!
 
 		// proveri da li je film validan
+		ResponseEntity<String> responseMovieName = movieServiceClient. getMovieName(newEntity.getMovieId());
+		String movieName = responseMovieName.getBody();
+		if (movieName == null) {
+			return new ResponseEntity<Projekcije>(newEntity, HttpStatus.FORBIDDEN);
+		}
+		newEntity.setMovieName(movieName);
 
 		// ako je sve u redu, kreiraj
-		return projekcijeRepository.save(newEntity);
+		return new ResponseEntity<Projekcije>(projekcijeRepository.save(newEntity), HttpStatus.OK);
 	}
 
-	/*
-	 * public UpravljanjeProjekcijama createPara(Date datumProjekcije,
-	 * UpravljanjeProjekcijama.Type tip, UpravljanjeProjekcijama.Status status,
-	 * String bioskopId, String bioskopNaziv, String salaId, String salaOznaka,
-	 * String filmId, String filmNaziv) {
-	 * 
-	 * System.out.println("Create sa parametrima");
-	 * 
-	 * UpravljanjeProjekcijama entity = new UpravljanjeProjekcijama(null,
-	 * datumProjekcije, tip, status, bioskopId, bioskopNaziv, salaId, salaOznaka,
-	 * filmId, filmNaziv);
-	 * 
-	 * entity = upravljanjeRepository.save(entity);
-	 * 
-	 * return entity; }
-	 */
-
-	public Projekcije update(String id, Projekcije newEntity, String sessionId) {
+	public ResponseEntity<Projekcije> updateProjection(String id, Projekcije newEntity, String sessionId) {
 
 		// ako korisnik nije tipa admin, prekini aktivnost
 		if (!isAdmin(userServiceClient.getTypeBySessionId(sessionId))) {
-			return null;
+			return new ResponseEntity<Projekcije>(newEntity, HttpStatus.FORBIDDEN);
 		}
 
-		Projekcije entity = projekcijeRepository.findOne(id);
-		// ako nije pronasao entitet, prekini aktivnost
-		if (entity == null) {
-			return null;
+		Projekcije oldEntity = projekcijeRepository.findOne(id);
+		// ako nije pronasao tu projekciju, prekini aktivnost
+		if (oldEntity == null) {
+			return new ResponseEntity<Projekcije>(newEntity, HttpStatus.FORBIDDEN);
 		}
 
-		try {
-			BeanUtils.copyProperties(newEntity, entity, "id");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			throw e;
+		if(newEntity.getDate() !=null){
+			oldEntity.setDate(newEntity.getDate());
+		}	
+		
+		if(newEntity.getStatus() !=null){
+			oldEntity.setStatus(newEntity.getStatus());
+		}
+		
+		if(newEntity.getType() !=null){
+			oldEntity.setType(newEntity.getType());
+		}
+		
+		// ako se menja bioskop
+		if (newEntity.getCinemaId() != null) {
+			
+			/* isto kao u createProjection */
+			// proveri da li su bisokop i sala validni
+			Map<String, Object> responseCinemaHall = cinemaServiceClient.getCinemaHallName(newEntity.getCinemaId(),
+					newEntity.getHallId());
+			String cinemaName = (String) responseCinemaHall.get("cinemaName");
+			String hallLabel = (String) responseCinemaHall.get("hallLabel");
+			if (cinemaName == null) {
+				return new ResponseEntity<Projekcije>(newEntity, HttpStatus.FORBIDDEN);
+			}
+			oldEntity.setCinemaName(cinemaName);
+			oldEntity.setHallLabel(hallLabel); // upisujem i kada mi posalje "error: not found" !!!
 		}
 
-		return projekcijeRepository.save(entity);
+		// ako se menja film
+		if (newEntity.getMovieId() != null) {
+			
+			/* isto kao u createProjection */
+			// proveri da li je film validan
+			ResponseEntity<String> responseMovieName = movieServiceClient.getMovieName(newEntity.getMovieId());
+			String movieName = responseMovieName.getBody();
+			if (movieName == null) {
+				return new ResponseEntity<Projekcije>(newEntity, HttpStatus.FORBIDDEN);
+			}
+			oldEntity.setMovieName(movieName);
+		}
+
+		return new ResponseEntity<Projekcije>(projekcijeRepository.save(oldEntity), HttpStatus.OK);
 	}
 
-	public boolean delete(String id, String sessionId) {
+	public ResponseEntity<Boolean> deleteProjection(String id, String sessionId) {
+		
 		// ako korisnik nije tipa admin, prekini aktivnost
 		if (!isAdmin(userServiceClient.getTypeBySessionId(sessionId))) {
-			return false;
+			return new ResponseEntity<Boolean>(false, HttpStatus.FORBIDDEN);
 		}
 
 		projekcijeRepository.delete(id);
 
-		return true;
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 
 	/* ------------------------------ KORISNIK ------------------------- */
@@ -165,7 +197,7 @@ public class ProjekcijeService extends AbstractCRUDService<Projekcije, String> {
 
 	/* ------------------------------ HYSTRIX -------------------------- */
 
-	/* USING LOAD-BALANCING - USER*/
+	/* USING LOAD-BALANCING - USER */
 	/**
 	 * Method checks if the given user is registered and active We use Ribbon and
 	 * Feign to get data from user-service, load-balancing
@@ -174,13 +206,37 @@ public class ProjekcijeService extends AbstractCRUDService<Projekcije, String> {
 	 * @return if user exists
 	 */
 	@HystrixCommand(fallbackMethod = "fallbackGetType")
-	public String getType(String sessionId) {
+	public String getTypeLoad(String sessionId) {
 		/* USING LOAD-BALANCING */
 		return userServiceClient.getTypeBySessionId(sessionId);
 	}
 
 	public String fallbackGetType(String username) {
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println("!!!!!!!!!!!!!!!user!!!!!!!!!!!!!!");
+		return "";
+	}
+
+	/* USING LOAD-BALANCING - MOVIE */
+	@HystrixCommand(fallbackMethod = "fallbackGetMovieName")
+	public ResponseEntity<String> getMovieNameLoad(String movieId) {
+		/* USING LOAD-BALANCING */
+		return movieServiceClient.getMovieName(movieId);
+	}
+
+	public String fallbackGetMovieName(String movieId) {
+		System.out.println("!!!!!!!!!!!!!movie!!!!!!!!!!!!!");
+		return "";
+	}
+
+	/* USING LOAD-BALANCING - CINEMA */
+	@HystrixCommand(fallbackMethod = "fallbackGetCinemaHallName")
+	public Map<String, Object> getCinemaHallNameLoad(String cinemaId, String hallId) {
+		/* USING LOAD-BALANCING */
+		return cinemaServiceClient.getCinemaHallName(cinemaId, hallId);
+	}
+
+	public String fallbackGetCinemaHallName(String movieId) {
+		System.out.println("!!!!!!!!!!!!!cinema!!!!!!!!!!!!!");
 		return "";
 	}
 }
