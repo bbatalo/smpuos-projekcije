@@ -196,9 +196,7 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			produces = MediaType.TEXT_PLAIN)
 	public String getMovieName(@RequestBody String movieId){
 
-			Movie movie = movieService.findById(movieId);
-			String movieName = movie.getName();
-			return movieName;
+			return movieService.findMovieName(movieId);
 
 	}
 

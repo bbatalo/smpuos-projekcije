@@ -193,5 +193,14 @@ public class MovieService extends AbstractCRUDService<Movie, String>{
 		
 		return movieRepository.findByPremiereBetween(start, end);
 	}
+	
+	public String findMovieName (String movieId){
+		Movie movie = movieRepository.findById(movieId);
+		if (movie!=null){
+			return movie.getName();
+		} else {
+			return "";
+		}
+	}
 
 }
