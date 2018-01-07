@@ -51,10 +51,10 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON,
 			produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<Movie> addMovie(MovieDTO dto){
+	public Movie addMovie(MovieDTO dto){
 		if(dto!=null){
 			Movie movie = movieService.addMovie(dto.getName(), dto.getDescription(), dto.getLength(), dto.getDirector(), dto.getActors(), dto.getCategory(), dto.getRatings(), dto.getPremiere());
-			return new ResponseEntity<Movie>(movie, HttpStatus.OK);
+			return movie;
 		}
 		return null;
 	}
@@ -74,13 +74,12 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 	
 	@Transactional
 	@RequestMapping(value = "/getMovie",
-			method = RequestMethod.POST,
-			consumes = MediaType.TEXT_PLAIN,
+			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<Movie> getMovie(String movieId){
+	public Movie getMovie(@RequestParam(name = "movie_id") String movieId){
 		if (movieId!=null){
 			Movie movie = movieService.findById(movieId);
-			return new ResponseEntity<Movie>(movie, HttpStatus.OK);
+			return movie;
 		}
 		return null;
 	}
@@ -90,10 +89,10 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON,
 			produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<Movie> updateMovie(MovieDTO dto){
+	public Movie updateMovie(MovieDTO dto){
 		if(dto!=null){
 			Movie movie = movieService.updateMovie(dto.getId(), dto.getName(), dto.getDescription(), dto.getLength(), dto.getDirector(), dto.getActors(), dto.getCategory(), dto.getRatings(), dto.getPremiere());
-			return new ResponseEntity<Movie>(movie, HttpStatus.OK);
+			return movie;
 		}
 		return null;
 	}
@@ -103,10 +102,10 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			method = RequestMethod.POST,
 			consumes = MediaType.TEXT_PLAIN,
 			produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<Boolean> deleteMovie(String movieId){
+	public Boolean deleteMovie(String movieId){
 		if (movieId!=null){
 			Boolean removed = movieService.delete(movieId);
-			return new ResponseEntity<Boolean>(removed, HttpStatus.OK);
+			return removed;
 		}
 		return null;
 	}
@@ -117,26 +116,25 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON,
 			produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<Movie> rateMovie(RatingDTO dto){
+	public Movie rateMovie(RatingDTO dto){
 		if(dto!=null){
 			Rating rating = new Rating(dto.getValue(), dto.getPosterId());
 			Movie movie = movieService.rateMovie(dto.getMovieId(), rating);
-			return new ResponseEntity<Movie>(movie, HttpStatus.OK);
+			return movie;
 		}
 		return null;
 	}
 	
 	@Transactional
 	@RequestMapping(value = "/getMoviesByYear",
-			method = RequestMethod.POST,
-			consumes = MediaType.TEXT_PLAIN,
+			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<List<Movie>> getMoviesByYear(String yearStr){
+	public List<Movie> getMoviesByYear(@RequestParam(name = "year_str") String  yearStr){
 		if(yearStr!=null){
 			try {
 				Integer year = new Integer(yearStr);
 				List<Movie> movies = movieService.findByYear(year);
-				return new ResponseEntity<List<Movie>>(movies, HttpStatus.OK);
+				return movies;
 			} catch (NumberFormatException e){
 				e.printStackTrace();
 				return null;
@@ -150,65 +148,63 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 	@RequestMapping(value = "/getTrending",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<List<Movie>> getTrending(){
+	public List<Movie> getTrending(){
 		Integer year = Calendar.getInstance().get(Calendar.YEAR);
 		if (year!=null) {
 			List<Movie> movies = movieService.findByYear(year);
-			return new ResponseEntity<List<Movie>>(movies, HttpStatus.OK);
+			return movies;
 		}
 		return null;
 	}
 	
 	@Transactional
 	@RequestMapping(value = "/getByRating",
-			method = RequestMethod.POST,
-			consumes = MediaType.TEXT_PLAIN,
+			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<List<Movie>> getByRating(String rating){
+	public List<Movie> getByRating(@RequestParam(name = "rating") String rating){
 		if(rating!=null){
 			double ratingAvg = new Double(rating);
 			List<Movie> movies = movieService.findByRatingAvg(ratingAvg);
-			return new ResponseEntity<List<Movie>>(movies, HttpStatus.OK);
+			return movies;
 		}
 		return null;
 	}
 	
 	@Transactional
 	@RequestMapping(value = "/getByDirector",
-			method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_JSON,
+			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<List<Movie>> getByDirector(NameDTO dto){
-		if(dto!=null){
-			List<Movie> movies = movieService.findByDirector(dto.getFirstName(), dto.getLastName());
-			return new ResponseEntity<List<Movie>>(movies, HttpStatus.OK);
+	public List<Movie> getByDirector(@RequestParam(name = "director_name") String directorName,
+			  					     @RequestParam(name = "director_surname") String directorSurname){
+		if(directorName!=null && directorSurname!=null){
+			List<Movie> movies = movieService.findByDirector(directorName, directorSurname);
+			return movies;
 		}
 		return null;
 	}
 	
 	@Transactional
 	@RequestMapping(value = "/getByActor",
-			method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_JSON,
+			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<List<Movie>> getByActor(NameDTO dto){
-		if(dto!=null){
-			List<Movie> movies = movieService.findByActor(dto.getFirstName(), dto.getLastName());
-			return new ResponseEntity<List<Movie>>(movies, HttpStatus.OK);
+	public List<Movie> getByActor(@RequestParam(name = "actor_name") String actorName,
+			 					  @RequestParam(name = "actor_surname") String actorSurname){
+		if(actorName!=null && actorSurname!=null){
+			List<Movie> movies = movieService.findByActor(actorName, actorSurname);
+			return movies;
 		}
 		return null;
 	}
 	
 	@Transactional
 	@RequestMapping(value = "/getByCategory",
-			method = RequestMethod.POST,
-			consumes = MediaType.TEXT_PLAIN,
+			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<List<Movie>> getByCategory(String category){
+	public List<Movie> getByCategory(@RequestParam(name = "category") String category){
 		if(category!=null){
 			Movie.Category cat = Movie.Category.valueOf(category);
 			List<Movie> movies = movieService.findByCategory(cat);
-			return new ResponseEntity<List<Movie>>(movies, HttpStatus.OK);
+			return movies;
 		}
 		return null;
 	}
@@ -218,10 +214,10 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON,
 			produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<List<Movie>> getByActors(List<Actor> actors){
+	public List<Movie> getByActors(List<Actor> actors){
 		if(actors!=null){
 			List<Movie> movies = movieService.findByActors(actors);
-			return new ResponseEntity<List<Movie>>(movies, HttpStatus.OK);
+			return movies;
 		}
 		return null;
 	}
@@ -231,11 +227,11 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			method = RequestMethod.POST,
 			consumes = MediaType.TEXT_PLAIN,
 			produces = MediaType.TEXT_PLAIN)
-	public ResponseEntity<String> getMovieName(String movieId){
+	public String getMovieName(String movieId){
 		if (movieId!=null){
 			Movie movie = movieService.findById(movieId);
 			String movieName = movie.getName();
-			return new ResponseEntity<String>(movieName, HttpStatus.OK);
+			return movieName;
 		}
 		return null;
 	}

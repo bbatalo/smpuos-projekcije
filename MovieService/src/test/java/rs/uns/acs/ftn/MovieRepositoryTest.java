@@ -390,9 +390,17 @@ public class MovieRepositoryTest {
 		movies = (ArrayList<Movie>) movieRepository.findByRatingAvg(new Double(10));
 		Assert.assertEquals(1, movies.size());
 		
-		
+		/* FIRST RUN */
 		movies = (ArrayList<Movie>) movieRepository.findAllByActor("Ryan", "Gosling");
 		Assert.assertEquals(2, movies.size());
+		
+		/* FIRST */
+		
+		/* OTHER RUNS 
+		movies = (ArrayList<Movie>) movieRepository.findAllByActor("Jeffrey", "DeMunn");
+		Assert.assertEquals(2, movies.size());
+		
+		 OTHER */
 		
 		/*                                   NOT SURE HOW TO TEST FOR LISTS
 		ArrayList<Actor> actorsTest = new ArrayList<Actor>();
@@ -412,21 +420,36 @@ public class MovieRepositoryTest {
 		
 		movies = (ArrayList<Movie>) movieRepository.findByName("The Shawshank Redemption");
 		Assert.assertEquals(1, movies.size());
-		
 		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.YEAR, 1994);
+		Integer year = Calendar.getInstance().get(Calendar.YEAR);
 		cal.set(Calendar.DAY_OF_YEAR, 1);    
 		Date start = cal.getTime();
+		
+		cal.set(Calendar.MONTH, 11); // 11 = december
+		cal.set(Calendar.DAY_OF_MONTH, 31); // new years eve
+		
+		Date end = cal.getTime();
+		
+		movies = (ArrayList<Movie>) movieRepository.findByPremiereBetween(start, end);
+		Assert.assertEquals(1, movies.size());
+		
+
+		cal.set(Calendar.YEAR, 1994);
+		cal.set(Calendar.DAY_OF_YEAR, 1);    
+		start = cal.getTime();
 		System.out.println(start.toString());
 		cal.set(Calendar.YEAR, 1994);
 		cal.set(Calendar.MONTH, 11); // 11 = december
 		cal.set(Calendar.DAY_OF_MONTH, 31); // new years eve
 		
-		Date end = cal.getTime();
+		end = cal.getTime();
 		System.out.println(end.toString());
 		
 		movies = (ArrayList<Movie>) movieRepository.findByPremiereBetween(start, end);
 		Assert.assertEquals(1, movies.size());
+		
+
+		
 		
 		movies = (ArrayList<Movie>) movieRepository.findByCategory(Movie.Category.DRAMA);
 		Assert.assertEquals(3, movies.size());
