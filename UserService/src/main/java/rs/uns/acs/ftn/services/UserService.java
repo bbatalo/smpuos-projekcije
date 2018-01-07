@@ -166,6 +166,12 @@ public class UserService extends AbstractCRUDService<User, String>{
 			return null;
 		}
 	}
+	
+	public Boolean isSessionActive(String sessionId) {
+		User user = userRepository.findBySessionId(sessionId);
+		
+		return user != null;
+	}
 
 	public List<User> findByFirstNameAndLastName(String firstName, String lastName) {
 		return userRepository.findByFirstNameAndLastName(firstName, lastName);

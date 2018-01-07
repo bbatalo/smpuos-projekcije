@@ -114,5 +114,10 @@ public class UserController extends AbstractRESTController<User, String>{
 	public String getType(@RequestParam(name = "username") String username){
 		return userService.getType(username);
 	}
+	
+	@RequestMapping(value = "/is_session_active", method = RequestMethod.GET)
+	public Boolean isSessionActive(@RequestParam(name = "sessionId") String sessionId){
+		return userService.isSessionActive(sessionId);
+	}
 
 }
