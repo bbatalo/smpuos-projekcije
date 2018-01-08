@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="row">
+    <div class="Absolute-Center is-Responsive">
+      <h1>Sign Up</h1>
+      <div [formGroup]="form" class="form-horizontal">
+
+        <div class="form-group input-group"	[ngClass]="{'has-error': (!username.valid && username.touched), 'has-success': (username.valid && username.touched)}">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          <input [formControl]="username" type="text" class="form-control" id="inputUname" placeholder="Username">
+        </div>
+        <div>
+          <span *ngIf="!username.valid && username.touched" class="help-block sub-little-text">Username must be at least 4 characters long.</span>
+        </div>
+
+        <div class="form-group input-group" [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+          <input [formControl]="password" type="password"	class="form-control" id="inputPassword" placeholder="Password">
+        </div>
+        <div>
+          <span *ngIf="!password.valid && password.touched" class="help-block sub-little-text">Password must be at least 6 characters long.</span>
+        </div>
+
+        <div class="form-group input-group" [ngClass]="{'has-error': (!email.valid && email.touched), 'has-success': (email.valid && email.touched)}">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+          <input [formControl]="email" type="text" class="form-control" id="inputEmail" placeholder="email">
+        </div>
+        <div>
+          <span *ngIf="!email.valid && email.touched" class="help-block sub-little-text">Enter valid email!</span>
+        </div>
+
+        <div class="form-group input-group" [ngClass]="{'has-error': (!firstName.valid && firstName.touched), 'has-success': (firstName.valid && firstName.touched)}">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+          <input [formControl]="firstName" type="text" class="form-control" id="inputFirstName" placeholder="First Name">
+        </div>
+        <div>
+          <span *ngIf="!firstName.valid && firstName.touched" class="help-block sub-little-text">Enter your name!</span>
+        </div>
+
+        <div class="form-group input-group" [ngClass]="{'has-error': (!lastName.valid && lastName.touched), 'has-success': (lastName.valid && lastName.touched)}">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+          <input [formControl]="lastName" type="text" class="form-control" id="inputLastName" placeholder="Last Name">
+        </div>
+        <div>
+          <span *ngIf="!lastName.valid && lastName.touched" class="help-block sub-little-text">Enter your last name!</span>
+        </div>
+
+        <div class="form-group row">
+          <div id="underLogin">
+            <button [disabled]="!form.valid" type="submit" (click)="onSignUp()" class="btn btn-primary btn-block">Create Account</button>
+          </div>
+        </div>
+        <div class="form-group" id="underLogin" >
+          <button (click)="onLogin()" type="button" class="btn btn-success">Back to Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

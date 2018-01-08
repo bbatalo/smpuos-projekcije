@@ -1,0 +1,42 @@
+div.well {
+  height: 250px;
+}
+
+.Absolute-Center {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.Absolute-Center.is-Responsive {
+  width: 50%;
+  height: 50%;
+  min-width: 200px;
+  max-width: 400px;
+  padding: 40px;
+}
+
+#underLogin > button {
+  margin: 0 5px 0 5px;
+}
+
+#background {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  /**  set your image background  **/
+  background-image: url();
+  background-repeat: no-repeat;
+  z-index: 10;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+}

@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row">
+    <div class="Absolute-Center is-Responsive">
+      <h1>Login</h1>
+      <form [formGroup]="form" class="form-horizontal">
+        <div class="form-group input-group"	[ngClass]="{'has-error': (!username.valid && username.touched), 'has-success': (username.valid && username.touched)}">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          <input [formControl]="username" type="text" class="form-control" id="inputUname" placeholder="Username">
+        </div>
+        <div>
+          <span *ngIf="!username.valid && username.touched" class="help-block sub-little-text">Username must be at least 4 characters long.</span>
+        </div>
+        <div class="form-group input-group" [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+          <input [formControl]="password" type="password"	class="form-control" id="inputPassword" placeholder="Password">
+        </div>
+        <div>
+          <span *ngIf="!password.valid && password.touched" class="help-block sub-little-text">Password must be at least 6 characters long.</span>
+        </div>
+        <div class="form-group row">
+          <div id="underLogin">
+            <button [disabled]="!form.valid" type="submit" (click)="onLogin()" class="btn btn-primary btn-block">Login</button>
+          </div>
+        </div>
+        <div class="form-group" id="underLogin" >
+          <button (click)="onSignUp()" type="button" class="btn btn-success">Sign Up</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
