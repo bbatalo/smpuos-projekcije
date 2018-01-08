@@ -43,6 +43,7 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 		this.movieService = movieService;
 	}
 	
+	/* TODO: Administrator verification. */
 	@Transactional
 	@RequestMapping(value = "/addMovie",
 			method = RequestMethod.POST,
@@ -75,6 +76,7 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			return movie;
 	}
 	
+	/* TODO: Administrator verification. */
 	@Transactional
 	@RequestMapping(value = "/updateMovie",
 			method = RequestMethod.POST,
@@ -85,6 +87,7 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			return movie;
 	}
 	
+	/* TODO: Administrator verification. */
 	@Transactional
 	@RequestMapping(value = "/deleteMovie",
 			method = RequestMethod.POST,
@@ -95,7 +98,7 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			return removed;
 	}
 	
-	
+	/* TODO: User verification. */
 	@Transactional
 	@RequestMapping(value = "/rateMovie",
 			method = RequestMethod.POST,
