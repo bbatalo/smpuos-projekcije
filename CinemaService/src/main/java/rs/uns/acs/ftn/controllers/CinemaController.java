@@ -7,7 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import rs.uns.acs.ftn.dto.CinemaHallDTO;
 import rs.uns.acs.ftn.models.Cinema;
 import rs.uns.acs.ftn.services.CinemaService;
 
@@ -39,72 +40,64 @@ public class CinemaController extends AbstractRESTController {
 		return "hello";
 	}
 	
-
 	@RequestMapping(method = RequestMethod.POST, 
-					consumes = { MediaType.APPLICATION_JSON_VALUE })
-	public Map<String, Object> save(@RequestParam(name = "sessionId") String sessionId,
-									@RequestBody Cinema newCinema) {
-		
+			consumes = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Cinema> save(@RequestParam(name = "sessionId") String sessionId,
+							@RequestBody Cinema newCinema) {
+
 		if (!isAdmin(cinemaService.getUserType(sessionId))) {
-			Map<String, Object> m = new HashMap<String, Object>();
-			m.put("not authorized", true);
-			return m;
+			return new ResponseEntity<Cinema>(newCinema, HttpStatus.FORBIDDEN);
 		}
 		Cinema created = cinemaService.save(newCinema);
-		Map<String, Object> m = new HashMap<String, Object>();
-		m.put("success", true);
-		m.put("created", created);
-		return m;
+
+
+		return new ResponseEntity<Cinema>(created, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public Map<String, Object> delete(@RequestParam(name = "sessionId") String sessionId,
+	public ResponseEntity<String> delete(@RequestParam(name = "sessionId") String sessionId,
 									  @PathVariable String id) {
 		
 
 		if (!isAdmin(cinemaService.getUserType(sessionId))) {
-			Map<String, Object> m = new HashMap<String, Object>();
-			m.put("not authorized", true);
-			return m;
+			return new ResponseEntity<String>("Not authorized", HttpStatus.FORBIDDEN);
 		}
 		
 		cinemaService.delete(id);
-		Map<String, Object> m = new HashMap<String, Object>();
-		m.put("success", true);
-		return m;
+		
+		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = { MediaType.APPLICATION_JSON_VALUE })
-	public Map<String, Object> update(@PathVariable String id, @RequestBody Cinema newEntity) {
+	public ResponseEntity<Cinema> update(@PathVariable String id, 
+									  @RequestBody Cinema newEntity,
+									  @RequestParam(name = "sessionId") String sessionId) {
+		
+		if (!isAdmin(cinemaService.getUserType(sessionId))) {
+			return new ResponseEntity<Cinema>(newEntity, HttpStatus.FORBIDDEN);
+		}
 		
 		Cinema updated = cinemaService.update(id, newEntity);
-		Map<String, Object> m = new HashMap<String, Object>();
-		m.put("success", true);
-		m.put("updated", updated);
-		return m;
+
+		return new ResponseEntity<Cinema>(updated, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/cinemas_by_name", method = RequestMethod.GET)
-	public Map<String, Object> findAllByName(@RequestParam(name = "name") String name) {
+	public ResponseEntity<List<Cinema>> findAllByName(@RequestParam(name = "name") String name) {
 		
 		List<Cinema> cinemas = cinemaService.findAllByName(name);
-		Map<String, Object> m = new HashMap<String, Object>();
-		m.put("success", true);
-		m.put("cinemas", cinemas);
-		return m;
+
+		return new ResponseEntity<List<Cinema>>(cinemas, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/cinemas_by_location", method = RequestMethod.GET)
-	public Map<String, Object> findAllByLocation(@RequestParam(name = "x") Double x,
+	public ResponseEntity<List<Cinema>> findAllByLocation(@RequestParam(name = "x") Double x,
 												 @RequestParam(name = "y") Double y,
 												 @RequestParam(name = "dist", defaultValue = "1") Double distance) {
 		
-		
 		List<Cinema> cinemas = cinemaService.findAllByLocation(x, y, distance);
-		Map<String, Object> m = new HashMap<String, Object>();
-		m.put("success", true);
-		m.put("cinemas", cinemas);
-		return m;
+		
+		return new ResponseEntity<List<Cinema>>(cinemas, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/cinema_hall_name", method = RequestMethod.GET)
