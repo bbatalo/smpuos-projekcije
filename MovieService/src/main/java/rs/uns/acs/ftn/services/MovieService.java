@@ -11,6 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
+import rs.uns.acs.ftn.controllers.MovieController.UserServiceClient;
+
 import rs.uns.acs.ftn.models.Actor;
 import rs.uns.acs.ftn.models.Director;
 import rs.uns.acs.ftn.models.Movie;
@@ -22,6 +26,10 @@ public class MovieService extends AbstractCRUDService<Movie, String>{
 	
 	private MovieRepository movieRepository;
 	
+	@Autowired
+	private UserServiceClient userServiceClient; // feign client
+
+
 	@Autowired
 	public MovieService(MovieRepository movieRepository){
 		super(movieRepository);
@@ -202,5 +210,28 @@ public class MovieService extends AbstractCRUDService<Movie, String>{
 			return "";
 		}
 	}
+	
+	
+	
+	/* USING LOAD-BALANCING - USER */
+	/**
+	 * Method checks what type if for given sessionId
+ 	 * We use Ribbon and Feign to get data from user-service, load-balancing
+	 * 
+	 * @param sessionId
+	 * @return if user exists
+	 */
+	@HystrixCommand(fallbackMethod = "fallbackGetType")
+	public String getTypeBySessionIdLoad(String sessionId) {
+		/* USING LOAD-BALANCING */
+		return userServiceClient.getTypeBySessionId(sessionId);
+	}
+
+	public String fallbackGetType(String sessionId) {
+		System.out.println("fallback user");
+		return "";
+	}
+
+	
 
 }
