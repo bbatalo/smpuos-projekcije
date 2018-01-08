@@ -52,8 +52,8 @@ public class ProjekcijeController extends AbstractRESTController<Projekcije, Str
 		newEntity.setHallLabel((String) responseCinemaHall.get("hallLabel"));
 		
 		// preuzmi naziv filma
-		String movieName = projekcijeService.getMovieNameLoad(newEntity.getMovieId());
-		newEntity.setMovieName(movieName);
+		ResponseEntity<String> responseMovieName = projekcijeService.getMovieNameLoad(newEntity.getMovieId());
+		newEntity.setMovieName(responseMovieName.getBody());
 				
 		// posalji servisu da sacuva
 		projekcijeService.save(newEntity);
@@ -108,8 +108,8 @@ public class ProjekcijeController extends AbstractRESTController<Projekcije, Str
 			newEntity.setMovieName(oldEntity.getMovieName());			
 		}
 		else {
-			String movieName = projekcijeService.getMovieNameLoad(newEntity.getMovieId());
-			newEntity.setMovieName(movieName);
+			ResponseEntity<String> responseMovieName = projekcijeService.getMovieNameLoad(newEntity.getMovieId());
+			newEntity.setMovieName(responseMovieName.getBody());
 		}		
 		
 		Projekcije izmenjena = projekcijeService.update(id, newEntity);
@@ -195,7 +195,7 @@ public class ProjekcijeController extends AbstractRESTController<Projekcije, Str
 	public interface MovieServiceClient {
 		@RequestMapping(value = "movies/getMovieName", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN, produces = MediaType.TEXT_PLAIN)
 
-		String getMovieName(@RequestBody String movieId);
+		ResponseEntity<String> getMovieName(@RequestBody String movieId);
 	}
 
 	@FeignClient("cinema-service")

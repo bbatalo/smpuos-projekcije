@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -94,14 +96,14 @@ public class ProjekcijeService extends AbstractCRUDService<Projekcije, String> {
 
 	/* USING LOAD-BALANCING - MOVIE */
 	@HystrixCommand(fallbackMethod = "fallbackGetMovieName")
-	public String getMovieNameLoad(String movieId) {
+	public ResponseEntity<String> getMovieNameLoad(String movieId) {
 		/* USING LOAD-BALANCING */
 		return movieServiceClient.getMovieName(movieId);
 	}
 
-	public String fallbackGetMovieName(String movieId) {
+	public ResponseEntity<String> fallbackGetMovieName(String movieId) {
 		System.out.println("!!!!!!!!!!!!!movie!!!!!!!!!!!!!");
-		return "Default Movie";
+		return new ResponseEntity<String>("Default Movie", HttpStatus.NOT_FOUND);
 	}
 
 	/* USING LOAD-BALANCING - CINEMA */
