@@ -1,0 +1,22 @@
+<div class="grid grid-pad">
+  <div class="col-1-4" routerLink="/cinemas">
+    <div class="module">
+      <h4>Bioskopi</h4>
+    </div>
+  </div>
+  <div class="col-1-4" routerLink="/cinemas">
+    <div class="module">
+      <h4 *ngIf="checkRole()">Filmovi</h4>
+    </div>
+  </div>
+  <div class="col-1-4" routerLink="/cinemas">
+    <div class="module">
+      <h4>Korisnik</h4>
+    </div>
+  </div>
+  <div (click)="onLogout()">
+    <div class="module">
+      <h4>Logout</h4>
+    </div>
+  </div>
+</div>

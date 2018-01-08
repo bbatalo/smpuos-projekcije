@@ -1,0 +1,48 @@
+<app-dashboard></app-dashboard>
+<div class="container">
+  <div class="row">
+    <div  class="Absolute-Center is-Responsive">
+      <div class="col-sm-12 col-md-12" >
+        <h3 style="color: #fff;padding: 0 0 6px 15px"> Svi Bioskopi</h3>
+        <table style="opacity: 0.91;" id="allCinemas" class="orders-table table table-bordered table-striped bg-warning" [mfData]="cinemas" #mf="mfDataTable" [mfRowsOnPage]="25">
+          <thead>
+          <tr >
+            <th >
+              <mfDefaultSorter by="id">Id</mfDefaultSorter>
+            </th>
+            <th>
+              <mfDefaultSorter by="name">Name</mfDefaultSorter>
+            </th>
+            <th>
+              <mfDefaultSorter by="address">Address</mfDefaultSorter>
+            </th>
+            <th>
+              <mfDefaultSorter by="rate">Rate</mfDefaultSorter>
+            </th>
+            <th>
+              Actions
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr  *ngFor="let item1 of mf.data" >
+            <td>{{item1.id}}</td>
+            <td>{{item1.name}}</td>
+            <td>{{item1.address}}</td>
+            <td>{{item1.rate}}</td>
+            <td>
+        	<span>
+            <button class="btn btn-warning" (click)="onEdit(item1)">Edit</button>
+         	  <button class="btn btn-success" (click)="onIncrement(item1)">Prikazi Sale</button>
+            <button (click)="onRemove(item1)" class="btn btn-danger">Remove</button>
+         	</span>
+            </td>
+          </tr>
+          </tbody>
+          <tfoot>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
