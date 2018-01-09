@@ -20,7 +20,7 @@ Potreban softver kako bi se pokrenuli svi servisi:
 Da bi se konfigurisalo razvojno okruženje za mikroservise, potrebno je sprovesti sledece korake:
   - Preuzeti Java 1.8 JDK sa zvaničnog web sajta i instalirati
   - Preuzeti MongoDB Community Edition 3.6 server sa zvaničnog web sajta i instalirati (može i Linux i Windows)
-  - Podesiti db/data folder (kreirati direktorijum u C:/ na Windowsu)
+  - Podesiti data/db folder (kreirati direktorijum u C:/ na Windowsu)
   - Dodati MongoDB u PATH promenljivu, kako bi se omogućio pristup *mongod* i *mongo* procesima iz konzole (bez pozicioniranja)
   
 Da bi se pokrenula baza podataka, potrebno je pokrenuti sledeću komandu u komandnoj liniji:
