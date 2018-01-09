@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 import rs.uns.acs.ftn.models.Actor;
 import rs.uns.acs.ftn.models.Movie;
+import rs.uns.acs.ftn.models.Category;
 
 public interface MovieRepository extends MongoRepository<Movie, String> {
 	
@@ -23,7 +24,7 @@ public interface MovieRepository extends MongoRepository<Movie, String> {
 	
 	List<Movie> findByLength(Long length);
 	
-	List<Movie> findByCategory(Movie.Category category);
+	List<Movie> findByCategory(Category category);
 	
 	List<Movie> findByRatingAvg(Double rating);
 	

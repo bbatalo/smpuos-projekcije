@@ -1,0 +1,19 @@
+package rs.uns.acs.ftn.models;
+
+public enum Category {
+	ACTION,
+	ADVENTURE,
+	ANIMATED,
+	CHILDREN,
+	COMEDY,
+	CRIME,
+	DOCUMENTARY,
+	DRAMA,
+	SCIENCE_FICTION,
+	HORROR,
+	MUSICAL,
+	MYSTERY,
+	ROMANCE,
+	THRILLER,
+	WESTERN
+}

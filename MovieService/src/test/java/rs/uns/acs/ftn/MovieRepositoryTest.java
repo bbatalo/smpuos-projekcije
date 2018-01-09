@@ -22,6 +22,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import rs.uns.acs.ftn.models.Director;
 import rs.uns.acs.ftn.models.Movie;
+import rs.uns.acs.ftn.models.Category;
 import rs.uns.acs.ftn.models.Rating;
 import rs.uns.acs.ftn.models.Actor;
 import rs.uns.acs.ftn.repositories.MovieRepository;
@@ -86,7 +87,7 @@ public class MovieRepositoryTest {
 	         e.printStackTrace();
 	     }
 		
-		Movie movie1 = new Movie("The Shawshank Redemption", "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.", new Long(144), new Director("Frank", "Darabont"),actors1, Movie.Category.DRAMA, ratings, new Double(0), premiere );
+		Movie movie1 = new Movie("The Shawshank Redemption", "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.", new Long(144), new Director("Frank", "Darabont"),actors1, Category.DRAMA, ratings, new Double(0), premiere );
 	
 		/*
 		 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -137,7 +138,7 @@ public class MovieRepositoryTest {
 	         premiere2 =  null;
 	     }
 		
-		Movie movie2 = new Movie("The Godfather", "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.", new Long(175), new Director("Francis", "Ford Coppola"),actors2, Movie.Category.DRAMA, ratings, new Double(0), premiere2 );
+		Movie movie2 = new Movie("The Godfather", "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.", new Long(175), new Director("Francis", "Ford Coppola"),actors2, Category.DRAMA, ratings, new Double(0), premiere2 );
 	
 	
 		
@@ -189,7 +190,7 @@ public class MovieRepositoryTest {
 	         premiere3 =  null;
 	     }
 		
-		Movie movie3 = new Movie("The Green Mile", "The lives of guards on Death Row are affected by one of their charges: a black man accused of child murder and rape, yet who has a mysterious gift.", new Long(189), new Director("Frank", "Darabont"),actors3, Movie.Category.DRAMA, ratings, new Double(0), premiere3 );
+		Movie movie3 = new Movie("The Green Mile", "The lives of guards on Death Row are affected by one of their charges: a black man accused of child murder and rape, yet who has a mysterious gift.", new Long(189), new Director("Frank", "Darabont"),actors3, Category.DRAMA, ratings, new Double(0), premiere3 );
 	
 		
 		/*
@@ -239,7 +240,7 @@ public class MovieRepositoryTest {
 	    	 premiere4 =  null;
 	     }
 		
-		Movie movie4 = new Movie("Django Unchained", "With the help of a German bounty hunter, a freed slave sets out to rescue his wife from a brutal Mississippi plantation owner.", new Long(165), new Director("Quentin", "Tarantino"),actors4, Movie.Category.WESTERN, ratings, new Double(0), premiere4 );
+		Movie movie4 = new Movie("Django Unchained", "With the help of a German bounty hunter, a freed slave sets out to rescue his wife from a brutal Mississippi plantation owner.", new Long(165), new Director("Quentin", "Tarantino"),actors4, Category.WESTERN, ratings, new Double(0), premiere4 );
 	
 		
 		
@@ -292,7 +293,7 @@ public class MovieRepositoryTest {
 	    	 premiere5 =  null;
 	     }
 		
-		Movie movie5 = new Movie("La La Land", "While navigating their careers in Los Angeles, a pianist and an actress fall in love while attempting to reconcile their aspirations for the future.", new Long(128), new Director("Damien", "Chazelle"),actors5, Movie.Category.MUSICAL, ratings, new Double(0), premiere5 );
+		Movie movie5 = new Movie("La La Land", "While navigating their careers in Los Angeles, a pianist and an actress fall in love while attempting to reconcile their aspirations for the future.", new Long(128), new Director("Damien", "Chazelle"),actors5, Category.MUSICAL, ratings, new Double(0), premiere5 );
 	
 		
 		/*
@@ -343,7 +344,7 @@ public class MovieRepositoryTest {
 	    	 premiere6 =  null;
 	     }
 		
-		Movie movie6 = new Movie("Star Wars: Episode VIII - The Last Jedi", "Rey develops her newly discovered abilities with the guidance of Luke Skywalker, who is unsettled by the strength of her powers. Meanwhile, the Resistance prepares for battle with the First Order.", new Long(152), new Director("Rian", "Johnson"),actors6, Movie.Category.ACTION, ratings, new Double(0), premiere6 );
+		Movie movie6 = new Movie("Star Wars: Episode VIII - The Last Jedi", "Rey develops her newly discovered abilities with the guidance of Luke Skywalker, who is unsettled by the strength of her powers. Meanwhile, the Resistance prepares for battle with the First Order.", new Long(152), new Director("Rian", "Johnson"),actors6, Category.ACTION, ratings, new Double(0), premiere6 );
 	
 		
 		/*
@@ -451,7 +452,7 @@ public class MovieRepositoryTest {
 
 		
 		
-		movies = (ArrayList<Movie>) movieRepository.findByCategory(Movie.Category.DRAMA);
+		movies = (ArrayList<Movie>) movieRepository.findByCategory(Category.DRAMA);
 		Assert.assertEquals(3, movies.size());
 		
 		movies = (ArrayList<Movie>) movieRepository.findAllByDirectorFirstNameAndLastName("Frank", "Darabont");

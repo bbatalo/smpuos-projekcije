@@ -18,6 +18,7 @@ import rs.uns.acs.ftn.controllers.MovieController.UserServiceClient;
 import rs.uns.acs.ftn.models.Actor;
 import rs.uns.acs.ftn.models.Director;
 import rs.uns.acs.ftn.models.Movie;
+import rs.uns.acs.ftn.models.Category;
 import rs.uns.acs.ftn.models.Rating;
 import rs.uns.acs.ftn.repositories.MovieRepository;
 
@@ -37,7 +38,7 @@ public class MovieService extends AbstractCRUDService<Movie, String>{
 	}
 	
 	public Movie addMovie(String name, String description, Long length, Director director, List<Actor> actors,
-			Movie.Category category, List<Rating> ratings, Date premiere) {
+			Category category, List<Rating> ratings, Date premiere) {
 		int counter = 0;
 		int sum = 0;
 		for (Rating rat : ratings){
@@ -85,7 +86,7 @@ public class MovieService extends AbstractCRUDService<Movie, String>{
 	}
 	
 	public Movie updateMovie(String id, String name, String description, Long length, Director director, List<Actor> actors,
-			Movie.Category category, List<Rating> ratings, Date premiere){
+			Category category, List<Rating> ratings, Date premiere){
 		Movie movie = movieRepository.findById(id);
 		
 		if(name!=null && name!=""){
@@ -169,7 +170,7 @@ public class MovieService extends AbstractCRUDService<Movie, String>{
 		return movieRepository.findAllByActor(firstName, lastName);
 	}
 	
-	public List<Movie> findByCategory(Movie.Category category){
+	public List<Movie> findByCategory(Category category){
 		return movieRepository.findByCategory(category);
 	}
 	

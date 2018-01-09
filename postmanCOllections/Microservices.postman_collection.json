@@ -187,6 +187,19 @@
 				"description": ""
 			},
 			"response": []
+		},
+		{
+			"name": "loginRegular",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
 		}
 	]
 }

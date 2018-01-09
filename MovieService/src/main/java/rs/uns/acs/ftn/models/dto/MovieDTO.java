@@ -6,7 +6,7 @@ import java.util.List;
 import rs.uns.acs.ftn.models.Actor;
 import rs.uns.acs.ftn.models.Director;
 import rs.uns.acs.ftn.models.Rating;
-import rs.uns.acs.ftn.models.Movie.Category;
+import rs.uns.acs.ftn.models.Category;
 
 public class MovieDTO {
 	

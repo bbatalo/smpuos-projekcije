@@ -26,6 +26,7 @@ import javax.ws.rs.core.Context;
 
 import rs.uns.acs.ftn.models.Actor;
 import rs.uns.acs.ftn.models.Movie;
+import rs.uns.acs.ftn.models.Category;
 import rs.uns.acs.ftn.models.Rating;
 import rs.uns.acs.ftn.models.dto.MovieDTO;
 import rs.uns.acs.ftn.models.dto.RatingDTO;
@@ -214,7 +215,7 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<List<Movie>> getByCategory(@RequestParam(name = "category") String category){
 
-			Movie.Category cat = Movie.Category.valueOf(category);
+			Category cat = Category.valueOf(category);
 			List<Movie> movies = movieService.findByCategory(cat);
 			return new ResponseEntity<List<Movie>>(movies, HttpStatus.OK);
 	}
