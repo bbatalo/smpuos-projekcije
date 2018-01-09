@@ -47,7 +47,7 @@ public class MovieService extends AbstractCRUDService<Movie, String>{
 		}
 		double ratingAvg = 0;
 		if(counter!=0){
-			ratingAvg = sum/counter;
+			ratingAvg = ((double)sum)/counter;
 		}
 		Movie movie = new Movie(
 					name,
@@ -67,7 +67,7 @@ public class MovieService extends AbstractCRUDService<Movie, String>{
 		if( movie!=null){
 			boolean contains = false;
 			for (Rating movieRating : movie.getRatings()){
-				if (movieRating.getPosterId()==rating.getPosterId()){
+				if (movieRating.getPosterId().equals(rating.getPosterId())){
 					contains = true;
 					movieRating.setValue(rating.getValue());
 					double ratingAvg = movie.calculateRating();

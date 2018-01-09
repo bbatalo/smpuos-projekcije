@@ -231,7 +231,7 @@ public class Movie implements Serializable {
 			counter+=1;
 			sum+=rat.getValue();
 		}
-		double ratingAvg = sum/counter;
+		double ratingAvg = ((double)sum)/counter;
 		return ratingAvg;
 	}
 

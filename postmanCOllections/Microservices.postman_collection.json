@@ -200,6 +200,32 @@
 				"description": ""
 			},
 			"response": []
+		},
+		{
+			"name": "signUp",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "loginJohnDoe",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
 		}
 	]
 }
