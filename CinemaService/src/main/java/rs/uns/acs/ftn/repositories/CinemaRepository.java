@@ -23,9 +23,8 @@ public interface CinemaRepository extends MongoRepository<Cinema, String> {
 	
 	@Query("{'name': {$regex: ?0}}")
 	List<Cinema> findAllByName(String name);
-//	
-//	@Query("{'address.location': {'$nearSphere': [?0, ?1], '$maxDistance': ?2}}")
-//	List<Cinema> findByLocationNear(Double x, Double y, Distance distance);
+	
+	List<Cinema> findAllByOrderByGradeDesc();
 
 	List<Cinema> findByLocationNear(Point point, Distance distance);
 	

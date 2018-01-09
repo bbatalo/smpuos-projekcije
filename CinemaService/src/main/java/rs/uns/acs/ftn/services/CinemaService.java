@@ -10,15 +10,21 @@ import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
-import rs.uns.acs.ftn.dto.CinemaHallDTO;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
+import rs.uns.acs.ftn.controllers.CinemaController.UserServiceClient;
 import rs.uns.acs.ftn.models.Cinema;
 import rs.uns.acs.ftn.models.ProjectionHall;
+import rs.uns.acs.ftn.models.Rating;
 import rs.uns.acs.ftn.repositories.CinemaRepository;
 
 @Service
 public class CinemaService extends AbstractCRUDService<Cinema, String> {
 
 	private CinemaRepository cinemaRepository;
+	
+	@Autowired
+	private UserServiceClient userServiceClient;
 	
 	@Autowired
 	public CinemaService(CinemaRepository cinemaRepository) {
@@ -31,10 +37,35 @@ public class CinemaService extends AbstractCRUDService<Cinema, String> {
 	}
 	
 	public List<Cinema> findAllByLocation(Double x, Double y, Double distance) {
-		System.out.println(x + " " + y + " " + distance);
 		Distance dist = new Distance(distance, Metrics.KILOMETERS);
-		System.out.println(dist);
 		return cinemaRepository.findByLocationNear(new Point(x, y), dist);
+	}
+	
+	public List<Cinema> rankings() {
+		return cinemaRepository.findAllByOrderByGradeDesc();
+	}
+	
+	public Cinema rate(String id, Rating rating) {
+		Cinema cinema = cinemaRepository.findById(id);
+		
+		boolean contains = false;
+		
+		for (Rating rt : cinema.getRatings()) {
+			if (rt.getUserId().equals(rating.getUserId())) {
+				contains = true;
+				rt.setValue(rating.getValue());
+				cinema.setGrade(cinema.calculateRating());
+				cinemaRepository.save(cinema);
+			}
+		}
+		
+		if (!contains) {
+			cinema.getRatings().add(rating);
+			cinema.setGrade(cinema.calculateRating());
+			cinemaRepository.save(cinema);
+		}
+		
+		return cinema;
 	}
 	
 	public Map<String, Object> findCinemaHall(String cinemaId, String hallId) {
@@ -60,4 +91,18 @@ public class CinemaService extends AbstractCRUDService<Cinema, String> {
 		
 		return m;
 	}
+
+	
+	@HystrixCommand(fallbackMethod = "fallbackGetType")
+	public String getUserType(String sessionId) {
+		return userServiceClient.getTypeBySessionId(sessionId);
+	}
+
+	public String fallbackGetType(String username) {
+		System.out.println("service unavailable");
+		return "";
+	}
+	
+	
+
 }
