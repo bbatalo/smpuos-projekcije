@@ -55,6 +55,10 @@ public class UserService extends AbstractCRUDService<User, String>{
 
 	public User signUp(String username, String password, String firstName, String lastName,
 			Date dateOfBirth, User.Gender gender, GeoJsonPoint location){
+		if (userRepository.findByUsername(username) != null) {
+			return null;
+		}
+		
 		User user = new User(
 				null,
 				firstName,

@@ -1,0 +1,452 @@
+{
+	"info": {
+		"name": "UserService",
+		"_postman_id": "e20ccc88-a43c-b647-46b9-16a9acf9e628",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8765/user-service/users/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"user-service",
+						"users",
+						"login"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "614e0170-5e79-4395-938b-42b951128a66"
+				},
+				"url": {
+					"raw": "localhost:8765/user-service/users/logout",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"user-service",
+						"users",
+						"logout"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Activate user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"regular\",\n\t\"sessionId\": \"568fea8b-5cd9-48ce-9588-42ae8f86bd2a\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8765/user-service/users/activate_user",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"user-service",
+						"users",
+						"activate_user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Deactivate user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"regular\",\n\t\"sessionId\": \"568fea8b-5cd9-48ce-9588-42ae8f86bd2a\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8765/user-service/users/deactivate_user",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"user-service",
+						"users",
+						"deactivate_user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Sign up",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"test\",\n\t\"password\": \"test\",\n\t\"gender\": \"MALE\",\n\t\"locationX\": 40.0,\n\t\"locationY\": 50.0\n}"
+				},
+				"url": {
+					"raw": "localhost:8765/user-service/users/sign_up",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"user-service",
+						"users",
+						"sign_up"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Active users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8765/user-service/users/active?session_id=568fea8b-5cd9-48ce-9588-42ae8f86bd2a",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"user-service",
+						"users",
+						"active"
+					],
+					"query": [
+						{
+							"key": "session_id",
+							"value": "568fea8b-5cd9-48ce-9588-42ae8f86bd2a",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Inactive users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8765/user-service/users/inactive?session_id=568fea8b-5cd9-48ce-9588-42ae8f86bd2a",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"user-service",
+						"users",
+						"inactive"
+					],
+					"query": [
+						{
+							"key": "session_id",
+							"value": "568fea8b-5cd9-48ce-9588-42ae8f86bd2a",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8765/user-service/users",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"user-service",
+						"users"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8765/user-service/users/get_user?id=5a4b982908eecd89a49503d1",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"user-service",
+						"users",
+						"get_user"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "5a4b982908eecd89a49503d1",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get users by name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8765/user-service/users/get_users_by_name?firstName=Test&lastName=Test",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"user-service",
+						"users",
+						"get_users_by_name"
+					],
+					"query": [
+						{
+							"key": "firstName",
+							"value": "Test",
+							"equals": true
+						},
+						{
+							"key": "lastName",
+							"value": "Test",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get users near point",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8765/user-service/users/get_users_near_point?point_x=44.0&point_y=21.0&distance=1000",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"user-service",
+						"users",
+						"get_users_near_point"
+					],
+					"query": [
+						{
+							"key": "point_x",
+							"value": "44.0",
+							"equals": true
+						},
+						{
+							"key": "point_y",
+							"value": "21.0",
+							"equals": true
+						},
+						{
+							"key": "distance",
+							"value": "1000",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get username by session ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8765/user-service/users/get_username_by_session_id?sessionId=568fea8b-5cd9-48ce-9588-42ae8f86bd2a",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"user-service",
+						"users",
+						"get_username_by_session_id"
+					],
+					"query": [
+						{
+							"key": "sessionId",
+							"value": "568fea8b-5cd9-48ce-9588-42ae8f86bd2a",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get type by session ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8765/user-service/users/get_type_by_session_id?sessionId=568fea8b-5cd9-48ce-9588-42ae8f86bd2a",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"user-service",
+						"users",
+						"get_type_by_session_id"
+					],
+					"query": [
+						{
+							"key": "sessionId",
+							"value": "568fea8b-5cd9-48ce-9588-42ae8f86bd2a",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get type",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8765/user-service/users/get_type?username=regular",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"user-service",
+						"users",
+						"get_type"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "regular",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Is session active?",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8765/user-service/users/is_session_active?sessionId=568fea8b-5cd9-48ce-9588-42ae8f86bd2a",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"user-service",
+						"users",
+						"is_session_active"
+					],
+					"query": [
+						{
+							"key": "sessionId",
+							"value": "568fea8b-5cd9-48ce-9588-42ae8f86bd2a",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
