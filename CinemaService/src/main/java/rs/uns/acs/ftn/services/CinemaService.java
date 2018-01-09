@@ -137,4 +137,18 @@ public class CinemaService extends AbstractCRUDService<Cinema, String> {
 		return true;
 	}
 
+	public boolean isRatingValid(Rating rating) {
+		
+		if (rating.getValue() > 5 || rating.getValue() < 1) {
+			return false;
+		}
+		
+		if ((rating.getUserId() == null) || (rating.getUserId().equals(""))) {
+			return false;
+		}
+				
+		// eventualno proveriti da li se username poklapa sa sessionId...
+		
+		return true;
+	}
 }

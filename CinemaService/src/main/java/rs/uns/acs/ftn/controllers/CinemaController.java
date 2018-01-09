@@ -106,16 +106,21 @@ public class CinemaController extends AbstractRESTController {
 	}
 	
 	@RequestMapping(value = "/rate", method = RequestMethod.POST)
-	public ResponseEntity<Cinema> rateCinema(@RequestParam(name = "sessionId") String sessionId,
+	public ResponseEntity<Object> rateCinema(@RequestParam(name = "sessionId") String sessionId,
 											 @RequestBody RatingDTO dto) {
 		
 		if (!isRegistered(cinemaService.getUserType(sessionId))) {
-			return new ResponseEntity<Cinema>(cinemaService.findOne(dto.getCinemaId()), HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Object>(cinemaService.findOne(dto.getCinemaId()), HttpStatus.FORBIDDEN);
 		}
 		
-		Cinema cinema = cinemaService.rate(dto.getCinemaId(), new Rating(dto.getValue(), dto.getUserId()));
+		Rating rating = new Rating(dto.getValue(), dto.getUserId());
+		if (!cinemaService.isRatingValid(rating)) {
+			return new ResponseEntity<Object>("not valid", HttpStatus.OK);
+		}
 		
-		return new ResponseEntity<Cinema>(cinema, HttpStatus.OK);
+		Cinema cinema = cinemaService.rate(dto.getCinemaId(), rating);
+		
+		return new ResponseEntity<Object>(cinema, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/ranking", method = RequestMethod.GET)
