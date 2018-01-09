@@ -1,6 +1,7 @@
 package rs.uns.acs.ftn.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.data.annotation.Id;
@@ -16,31 +17,34 @@ public class Cinema implements Serializable {
 	@Id
 	private String id;
 	private String name;
-	//private Address address;
 	private String address;
 	@GeoSpatialIndexed(type=GeoSpatialIndexType.GEO_2DSPHERE)
 	private GeoJsonPoint location;
 	private Collection<ProjectionHall> halls;
-	private int grade;
+	private Collection<Rating> ratings;
+	private double grade;
 	
 	public Cinema() {
-		
+		this.halls = new ArrayList<ProjectionHall>();
+		this.ratings = new ArrayList<Rating>();
 	}
 
-	public Cinema(String name, Address address, int grade, Collection<ProjectionHall> halls) {
+	public Cinema(String name, double grade, Collection<ProjectionHall> halls) {
 		super();
 		this.name = name;
-		//this.address = address;
 		this.grade = grade;
 		this.halls = halls;
 	}
 	
-	public Cinema(String name, String address, GeoJsonPoint location, Collection<ProjectionHall> halls, int grade) {
+
+	public Cinema(String name, String address, GeoJsonPoint location, Collection<ProjectionHall> halls,
+			Collection<Rating> ratings, double grade) {
 		super();
 		this.name = name;
 		this.address = address;
 		this.location = location;
 		this.halls = halls;
+		this.ratings = ratings;
 		this.grade = grade;
 	}
 
@@ -59,18 +63,13 @@ public class Cinema implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-//	public Address getAddress() {
-//		return address;
-//	}
-//
-//	public void setAddress(Address address) {
-//		this.address = address;
-//	}
-
 	
-	public int getGrade() {
+	public double getGrade() {
 		return grade;
+	}
+	
+	public void setGrade(double grade) {
+		this.grade = grade;
 	}
 
 	public String getAddress() {
@@ -89,9 +88,6 @@ public class Cinema implements Serializable {
 		this.location = location;
 	}
 
-	public void setGrade(int grade) {
-		this.grade = grade;
-	}
 
 	public Collection<ProjectionHall> getHalls() {
 		return halls;
@@ -101,6 +97,24 @@ public class Cinema implements Serializable {
 		this.halls = halls;
 	}
 	
-	
+	public Collection<Rating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(Collection<Rating> ratings) {
+		this.ratings = ratings;
+	}
+
+	public double calculateRating() {
+		double sum = 0;
+		int counter = 0;
+		for (Rating rat : ratings){
+			counter += 1;
+			sum += rat.getValue();
+		}
+		
+		double ratingAvg = sum/counter;
+		return ratingAvg;
+	}
 	
 }

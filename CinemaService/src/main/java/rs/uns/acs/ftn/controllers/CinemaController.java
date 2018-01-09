@@ -1,6 +1,5 @@
 package rs.uns.acs.ftn.controllers;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.uns.acs.ftn.dto.RatingDTO;
 import rs.uns.acs.ftn.models.Cinema;
+import rs.uns.acs.ftn.models.Rating;
 import rs.uns.acs.ftn.services.CinemaService;
 
 @RestController
@@ -70,8 +71,8 @@ public class CinemaController extends AbstractRESTController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Cinema> update(@PathVariable String id, 
-									  @RequestBody Cinema newEntity,
-									  @RequestParam(name = "sessionId") String sessionId) {
+									     @RequestBody Cinema newEntity,
+									     @RequestParam(name = "sessionId") String sessionId) {
 		
 		if (!isAdmin(cinemaService.getUserType(sessionId))) {
 			return new ResponseEntity<Cinema>(newEntity, HttpStatus.FORBIDDEN);
@@ -100,6 +101,27 @@ public class CinemaController extends AbstractRESTController {
 		return new ResponseEntity<List<Cinema>>(cinemas, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/rate", method = RequestMethod.POST)
+	public ResponseEntity<Cinema> rateCinema(@RequestParam(name = "sessionId") String sessionId,
+											 @RequestBody RatingDTO dto) {
+		
+		if (!isRegistered(cinemaService.getUserType(sessionId))) {
+			return new ResponseEntity<Cinema>(cinemaService.findOne(dto.getCinemaId()), HttpStatus.FORBIDDEN);
+		}
+		
+		Cinema cinema = cinemaService.rate(dto.getCinemaId(), new Rating(dto.getValue(), dto.getUserId()));
+		
+		return new ResponseEntity<Cinema>(cinema, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/ranking", method = RequestMethod.GET)
+	public ResponseEntity<List<Cinema>> rankings() {
+		
+		List<Cinema> cinemas = cinemaService.rankings();
+		
+		return new ResponseEntity<List<Cinema>>(cinemas, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/cinema_hall_name", method = RequestMethod.GET)
 	public Map<String, Object> getCinemaHallName(@RequestParam(name = "cinemaId") String cinemaId,
 										   @RequestParam(name = "hallId") String hallId) {
@@ -114,6 +136,7 @@ public class CinemaController extends AbstractRESTController {
 		
 		String getTypeBySessionId(@RequestParam(name = "sessionId") String sessionId);
 	}
+	
 	
 	//private methods
 	
