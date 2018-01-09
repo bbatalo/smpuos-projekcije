@@ -11,10 +11,35 @@ Evidencija korisnika vodi računa o pristupu i registraciji na sistem, autorizac
 U ovom odeljku opisani su svi softverski preduslovi kako bi projekat podesio na lokalnoj mašini u svrhe daljeg razvoja i testiranja. Za uputstva o podizanju projekta na udaljeni server, pogledati odeljak *Podizanje na server*
 
 ## Preduslovi
-U izradi...
+Potreban softver kako bi se pokrenuli svi servisi:
+  - Java 1.8 JDK (ne rizikovati sa drugim verzijama)
+  - MongoDB Community Edition 3.6 server
+  - NodeJS + npm
 
 ## Instalacija
-U izradi...
+Da bi se konfigurisalo razvojno okruženje za mikroservise, potrebno je sprovesti sledece korake:
+  - Preuzeti Java 1.8 JDK sa zvaničnog web sajta i instalirati
+  - Preuzeti MongoDB Community Edition 3.6 server sa zvaničnog web sajta i instalirati (može i Linux i Windows)
+  - Podesiti db/data folder (kreirati direktorijum u C:/ na Windowsu)
+  - Dodati MongoDB u PATH promenljivu, kako bi se omogućio pristup *mongod* i *mongo* procesima iz konzole (bez pozicioniranja)
+  
+Da bi se pokrenula baza podataka, potrebno je pokrenuti sledeću komandu u komandnoj liniji:
+```bash
+mongod
+```
+Da bi se inicijalizovali test podaci, potrebno je pokrenuti sledeću komandu u komandnoj liniji (iz *scripts* direktorijuma u okviru projekta:
+```bash
+mongo db_scripts.js
+```
+Svaki servis je implementiran kao zaseban *Maven* projekat, koji je potrebno importovati u razvojno okruženje Spring Tool Suite.
+Redosled pokretanja pojedinačnih servisa je sledeći (prva dva moraju u navedenom redosledu, ostali ne):
+  1. Eureka
+  2. Zuul
+  3. UserService
+  4. CinemaService
+  5. MovieService
+  6. ProjekcijeService
+  - Baza podataka mora biti pokrenuta kako bi mikroservisi bili u stanju da se povežu na nju
 
 # Pokretanje testova
 U ovom odeljku opisan je postupak za pokretanje automatizovanih integracionih i jediničnih testova.
@@ -37,7 +62,14 @@ Za modelovanje BPMN:
   - Yaoqiang BPMN editor
   
 Za implementaciju mikroservisne arhitekure i web aplikacije:
-  - U izradi...
+  - Spring Tool Suite 
+  - MongoDB Community Edition 3.6
+  - Maven
+  - Postman
+  - MongoDB Compass
+  - Robo 3T (nekada RoboMongo)
+  - Sublime
+  - Visual Studio Code
 
 # Autori
 - Dušan Radisavljević
