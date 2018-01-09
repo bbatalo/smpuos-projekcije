@@ -49,21 +49,23 @@ public class CinemaService extends AbstractCRUDService<Cinema, String> {
 	public Cinema rate(String id, Rating rating) {
 		Cinema cinema = cinemaRepository.findById(id);
 		
-		boolean contains = false;
-		
-		for (Rating rt : cinema.getRatings()) {
-			if (rt.getUserId().equals(rating.getUserId())) {
-				contains = true;
-				rt.setValue(rating.getValue());
+		if (cinema != null) {
+			boolean contains = false;
+			
+			for (Rating rt : cinema.getRatings()) {
+				if (rt.getUserId().equals(rating.getUserId())) {
+					contains = true;
+					rt.setValue(rating.getValue());
+					cinema.setGrade(cinema.calculateRating());
+					cinemaRepository.save(cinema);
+				}
+			}
+			
+			if (!contains) {
+				cinema.getRatings().add(rating);
 				cinema.setGrade(cinema.calculateRating());
 				cinemaRepository.save(cinema);
 			}
-		}
-		
-		if (!contains) {
-			cinema.getRatings().add(rating);
-			cinema.setGrade(cinema.calculateRating());
-			cinemaRepository.save(cinema);
 		}
 		
 		return cinema;

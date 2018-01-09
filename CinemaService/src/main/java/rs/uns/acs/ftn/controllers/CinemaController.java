@@ -120,6 +120,9 @@ public class CinemaController extends AbstractRESTController {
 		
 		Cinema cinema = cinemaService.rate(dto.getCinemaId(), rating);
 		
+		if (cinema == null)
+			return new ResponseEntity<Object>("cinema not found", HttpStatus.OK);
+		
 		return new ResponseEntity<Object>(cinema, HttpStatus.OK);
 	}
 	

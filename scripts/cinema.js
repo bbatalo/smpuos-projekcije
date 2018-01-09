@@ -51,6 +51,32 @@ var insertDefaultDataCinema = function(db){
                     "type": "TD"
                 }
             ]
+        },
+        {
+            "name": "Generic1",
+            "address": "Neko mesto, Neka drzava",
+            "location": {
+                "type": "Point",
+                "coordinates": [43.8, 22.0]
+            },
+            "halls": [
+                {
+                    _id: ObjectId(),
+                    "label": "Obicna",
+                    "capacity": 150,
+                    "rowCount": 10,
+                    "colCount": 15,
+                    "type": "ORDINARY"
+                },
+                {
+                    _id: ObjectId(),
+                    "label": "Super-interactive",
+                    "capacity": 20,
+                    "rowCount": 4,
+                    "colCount": 5,
+                    "type": "FD"
+                }
+            ]
         }
     ]);
 };
