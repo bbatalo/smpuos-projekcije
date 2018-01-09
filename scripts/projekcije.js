@@ -1,6 +1,7 @@
 var insertDefaultDataProjekcije = function(db){
     db.projekcije.insert([
         {
+			"_id" : "pr1",
             "date" : ISODate("2018-01-10T00:10:00.000Z"),
             "type" : "PREMIERE",
             "status" : "INACTIVE",
@@ -12,6 +13,7 @@ var insertDefaultDataProjekcije = function(db){
 			"movieName" : "Биће боље - aб"
 		},
         {
+			"_id" : "pr2",
             "date" : ISODate("2018-01-13T13:00:00.000Z"),
             "type" : "PREMIERE",
             "status" : "ACTIVE",
@@ -23,6 +25,7 @@ var insertDefaultDataProjekcije = function(db){
 			"movieName" : "Brže, jače, bolje 4"
         },
         {
+			"_id" : "pr3",
 			"date" : ISODate("2018-01-15T15:00:00.000Z"),
             "type" : "REGULAR",
             "status" : "ACTIVE",
