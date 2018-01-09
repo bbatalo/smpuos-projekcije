@@ -224,13 +224,13 @@ public class MovieService extends AbstractCRUDService<Movie, String>{
 	 * @param sessionId
 	 * @return if user exists
 	 */
-	@HystrixCommand(fallbackMethod = "fallbackGetType")
+	@HystrixCommand(fallbackMethod = "fallbackGetTypeForMovie")
 	public String getTypeBySessionIdLoad(String sessionId) {
 		/* USING LOAD-BALANCING */
 		return userServiceClient.getTypeBySessionId(sessionId);
 	}
 
-	public String fallbackGetType(String sessionId) {
+	public String fallbackGetTypeForMovie(String sessionId) {
 		System.out.println("fallback user");
 		return "";
 	}
