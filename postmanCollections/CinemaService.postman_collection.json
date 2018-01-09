@@ -1,0 +1,285 @@
+{
+	"info": {
+		"name": "CinemaService",
+		"_postman_id": "9a130fd4-b10e-27f6-bca2-2d9a8f596542",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "FindAll",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8086/cinemas",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"cinemas"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "SaveOne",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Novi Bioskop\",\r\n    \"address\": \"Novi Sad, Srbija\",\r\n    \"location\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [44.8, 23.0]\r\n    },\r\n    \"halls\": [\r\n        {\r\n            \"label\": \"KLASIKANERSKA\",\r\n            \"capacity\": 100,\r\n            \"rowCount\": 10,\r\n            \"colCount\": 10,\r\n            \"type\": \"ORDINARY\"\r\n        },\r\n        {\r\n            \"label\": \"ELITISTICKA\",\r\n            \"capacity\": 50,\r\n            \"rowCount\": 10,\r\n            \"colCount\": 5,\r\n            \"type\": \"TD\"\r\n        }\r\n    ]\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8086/cinemas?sessionId=c00239d9-1f44-4fa6-b9c6-5d18a948ca73",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"cinemas"
+					],
+					"query": [
+						{
+							"key": "sessionId",
+							"value": "c00239d9-1f44-4fa6-b9c6-5d18a948ca73",
+							"equals": true
+						}
+					]
+				},
+				"description": "Change sessionId to a logged in admin sessionId"
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteOne",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8086/cinemas/5a531d73aff6db201897cf10?sessionId=7d72c098-bba5-4481-b9ac-b530ee09bbcf",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"cinemas",
+						"5a531d73aff6db201897cf10"
+					],
+					"query": [
+						{
+							"key": "sessionId",
+							"value": "7d72c098-bba5-4481-b9ac-b530ee09bbcf",
+							"equals": true
+						}
+					]
+				},
+				"description": "Promeniti parametar tako da odgovara nekom ID-u u bazi."
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateOne",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"_id\" : \"5a54cd311e3b7d5ba769a5a6\",\r\n        \"name\" : \"ArenaNOVA\",\r\n        \"address\" : \"BEOGRAD, Srbija\",\r\n        \"location\" : {\r\n            \"type\" : \"Point\",\r\n            \"coordinates\" : [\r\n                45,\r\n                22\r\n            ]\r\n        },\r\n        \"halls\" : [\r\n                {\r\n                        \"_id\" : \"5a54cd311e3b7d5ba769a5a2\",\r\n                        \"label\" : \"KLASIKANERSKA\",\r\n                        \"capacity\" : 100,\r\n                        \"rowCount\" : 10,\r\n                        \"colCount\" : 10,\r\n                        \"type\" : \"ORDINARY\"\r\n                },\r\n                {\r\n                        \"_id\" : \"5a54cd311e3b7d5ba769a5a3\",\r\n                        \"label\" : \"ELITISTICKA\",\r\n                        \"capacity\" : 50,\r\n                        \"rowCount\" : 10,\r\n                        \"colCount\" : 5,\r\n                        \"type\" : \"TD\"\r\n                }\r\n        ],\r\n        \"grade\": 0\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8086/cinemas/5a54cd311e3b7d5ba769a5a6?sessionId=c73ba8d6-1545-406e-98d7-f3311f8bf1c0",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"cinemas",
+						"5a54cd311e3b7d5ba769a5a6"
+					],
+					"query": [
+						{
+							"key": "sessionId",
+							"value": "c73ba8d6-1545-406e-98d7-f3311f8bf1c0",
+							"equals": true
+						}
+					]
+				},
+				"description": "Promeniti parametar tako da odgovara nekom bioskopu u bazi."
+			},
+			"response": []
+		},
+		{
+			"name": "FindAllByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8086/cinemas/cinemas_by_name?name=Arena",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"cinemas",
+						"cinemas_by_name"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Arena",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "FindAllByLocation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8086/cinemas/cinemas_by_location?x=44.8&y=22&dist=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"cinemas",
+						"cinemas_by_location"
+					],
+					"query": [
+						{
+							"key": "x",
+							"value": "44.8",
+							"equals": true
+						},
+						{
+							"key": "y",
+							"value": "22",
+							"equals": true
+						},
+						{
+							"key": "dist",
+							"value": "1",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "CinemaHallName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8086/cinemas/cinema_hall_name?cinemaId=5a5274412e602507c7cb6676&hallId=5a5274412e602507c7cb6672",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"cinemas",
+						"cinema_hall_name"
+					],
+					"query": [
+						{
+							"key": "cinemaId",
+							"value": "5a5274412e602507c7cb6676",
+							"equals": true
+						},
+						{
+							"key": "hallId",
+							"value": "5a5274412e602507c7cb6672",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "RateMovie",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"value\": 5,\n\t\"userId\": \"5a54cd311e3b7d5ba769a596\",\n\t\"cinemaId\": \"5a54cd311e3b7d5ba769a5a4\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8086/cinemas/rate?sessionId=ab53251b-8f5a-4fa2-a374-40832145d152",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"cinemas",
+						"rate"
+					],
+					"query": [
+						{
+							"key": "sessionId",
+							"value": "ab53251b-8f5a-4fa2-a374-40832145d152",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Ranking",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8086/cinemas/ranking",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"cinemas",
+						"ranking"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
