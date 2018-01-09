@@ -15,8 +15,6 @@ public interface MovieRepository extends MongoRepository<Movie, String> {
 	
 	List<Movie> findAll();
 	
-	Long deleteMovieById(Long id);
-	
 	Movie findById(String movieId);
 	
 	List<Movie> findByName (String name);

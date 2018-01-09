@@ -54,10 +54,14 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<Movie> addMovie(@RequestBody MovieDTO dto, @RequestParam("sessionId") String sessionId){
 			Movie movie = new Movie();
-			if (!isAdmin(movieService.getTypeBySessionIdLoad(sessionId))){
-				return new ResponseEntity<Movie>(movie, HttpStatus.FORBIDDEN);			
+			String test = movieService.getTypeBySessionIdLoad(sessionId);
+			if(test==null){
+				return new ResponseEntity<Movie>(movie, HttpStatus.FORBIDDEN);	
 			}
-		
+			if (!isNotAdmin(test)){
+				System.out.println(isNotAdmin(movieService.getTypeBySessionIdLoad(sessionId)));
+				return new ResponseEntity<Movie>(movie, HttpStatus.FORBIDDEN);	
+			}
 			movie = movieService.addMovie(dto.getName(), dto.getDescription(), dto.getLength(), dto.getDirector(), dto.getActors(), dto.getCategory(), dto.getRatings(), dto.getPremiere());
 			return new ResponseEntity<Movie>(movie, HttpStatus.OK);
 	}
@@ -92,8 +96,13 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<Movie> updateMovie(@RequestBody MovieDTO dto, @RequestParam("sessionId") String sessionId){
 			Movie movie = new Movie();
-			if (!isAdmin(movieService.getTypeBySessionIdLoad(sessionId))){
-				return new ResponseEntity<Movie>(movie, HttpStatus.FORBIDDEN);			
+			String test = movieService.getTypeBySessionIdLoad(sessionId);
+			if(test==null){
+				return new ResponseEntity<Movie>(movie, HttpStatus.FORBIDDEN);	
+			}
+			if (!isNotAdmin(test)){
+				System.out.println(isNotAdmin(movieService.getTypeBySessionIdLoad(sessionId)));
+				return new ResponseEntity<Movie>(movie, HttpStatus.FORBIDDEN);	
 			}
 			movie = movieService.updateMovie(dto.getId(), dto.getName(), dto.getDescription(), dto.getLength(), dto.getDirector(), dto.getActors(), dto.getCategory(), dto.getRatings(), dto.getPremiere());
 			return new ResponseEntity<Movie>(movie, HttpStatus.OK);
@@ -107,8 +116,13 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<Boolean> deleteMovie(@RequestBody String movieId, @RequestParam("sessionId") String sessionId){
 
-			if (!isAdmin(movieService.getTypeBySessionIdLoad(sessionId))){
-				return new ResponseEntity<Boolean>(false, HttpStatus.FORBIDDEN);			
+			String test = movieService.getTypeBySessionIdLoad(sessionId);
+			if(test==null){
+				return new ResponseEntity<Boolean>(false, HttpStatus.FORBIDDEN);	
+			}
+			if (!isNotAdmin(test)){
+				System.out.println(isNotAdmin(movieService.getTypeBySessionIdLoad(sessionId)));
+				return new ResponseEntity<Boolean>(false, HttpStatus.FORBIDDEN);	
 			}
 			Boolean removed = movieService.delete(movieId);
 			return new ResponseEntity<Boolean>(removed, HttpStatus.OK);
@@ -122,8 +136,13 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<Movie> rateMovie(@RequestBody RatingDTO dto, @RequestParam("sessionId") String sessionId){
 			Movie movie = new Movie();
-			if (!isAdmin(movieService.getTypeBySessionIdLoad(sessionId))){
-				return new ResponseEntity<Movie>(movie, HttpStatus.FORBIDDEN);			
+			String test = movieService.getTypeBySessionIdLoad(sessionId);
+			if(test==null){
+				return new ResponseEntity<Movie>(movie, HttpStatus.FORBIDDEN);	
+			}
+			if (isNotAdmin(test)){
+				System.out.println(isNotAdmin(movieService.getTypeBySessionIdLoad(sessionId)));
+				return new ResponseEntity<Movie>(movie, HttpStatus.FORBIDDEN);	
 			}
 			Rating rating = new Rating(dto.getValue(), dto.getPosterId());
 			movie = movieService.rateMovie(dto.getMovieId(), rating);
@@ -239,9 +258,9 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 	 * @param type
 	 * @return if user type is administrator
 	 */
-	private boolean isAdmin(String type) {
+	private Boolean isNotAdmin(String type) {
 		if (type == null) {
-			return false;
+			return null;
 		}
 
 		if (type.equals("ADMINISTRATOR")) {

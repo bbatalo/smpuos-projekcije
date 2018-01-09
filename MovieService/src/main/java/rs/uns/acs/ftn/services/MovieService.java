@@ -44,7 +44,10 @@ public class MovieService extends AbstractCRUDService<Movie, String>{
 			counter+=1;
 			sum+=rat.getValue();
 		}
-		double ratingAvg = sum/counter;
+		double ratingAvg = 0;
+		if(counter!=0){
+			ratingAvg = sum/counter;
+		}
 		Movie movie = new Movie(
 					name,
 					description,
@@ -60,21 +63,23 @@ public class MovieService extends AbstractCRUDService<Movie, String>{
 	
 	public Movie rateMovie(String id, Rating rating){
 		Movie movie = movieRepository.findById(id);
-		boolean contains = false;
-		for (Rating movieRating : movie.getRatings()){
-			if (movieRating.getPosterId()==rating.getPosterId()){
-				contains = true;
-				movieRating.setValue(rating.getValue());
+		if( movie!=null){
+			boolean contains = false;
+			for (Rating movieRating : movie.getRatings()){
+				if (movieRating.getPosterId()==rating.getPosterId()){
+					contains = true;
+					movieRating.setValue(rating.getValue());
+					double ratingAvg = movie.calculateRating();
+					movie.setRatingAvg(ratingAvg);
+					movieRepository.save(movie);
+				}
+			}
+			if(!contains){
+				movie.getRatings().add(rating);
 				double ratingAvg = movie.calculateRating();
 				movie.setRatingAvg(ratingAvg);
 				movieRepository.save(movie);
 			}
-		}
-		if(!contains){
-			movie.getRatings().add(rating);
-			double ratingAvg = movie.calculateRating();
-			movie.setRatingAvg(ratingAvg);
-			movieRepository.save(movie);
 		}
 		return movie;
 	}
@@ -139,9 +144,6 @@ public class MovieService extends AbstractCRUDService<Movie, String>{
 		return movies;
 	}
 	
-	public Long deleteMovieById(Long id){
-		return movieRepository.deleteMovieById(id);
-	}
 	
 	public Movie findById(String movieId){
 		return movieRepository.findById(movieId);
