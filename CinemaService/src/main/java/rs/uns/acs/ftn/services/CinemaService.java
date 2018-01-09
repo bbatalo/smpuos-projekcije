@@ -14,6 +14,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 import rs.uns.acs.ftn.controllers.CinemaController.UserServiceClient;
 import rs.uns.acs.ftn.models.Cinema;
+import rs.uns.acs.ftn.models.HallType;
 import rs.uns.acs.ftn.models.ProjectionHall;
 import rs.uns.acs.ftn.models.Rating;
 import rs.uns.acs.ftn.repositories.CinemaRepository;
@@ -99,10 +100,41 @@ public class CinemaService extends AbstractCRUDService<Cinema, String> {
 	}
 
 	public String fallbackGetType(String username) {
-		System.out.println("service unavailable");
+		System.out.println("user-service unavailable");
 		return "";
 	}
 	
-	
+	public boolean isCinemaValid(Cinema cinema) {
+		
+		if ((cinema.getLocation() == null) 
+				|| (cinema.getLocation().getCoordinates() == null)) {
+			return false;
+		}
+		
+		if ((cinema.getAddress() == null) || cinema.getAddress().equals("")) {
+			return false;
+		}
+		
+		if ((cinema.getName() == null) || (cinema.getName().equals(""))) {
+			return false;
+		}
+		
+		for (ProjectionHall hall : cinema.getHalls()) {
+			if ((hall.getLabel() == null) || (hall.getLabel().equals(""))) {
+				return false;
+			}
+			
+			if ((hall.getRowCount()) == 0 || (hall.getColCount() == 0)) {
+				return false;
+			}
+			
+			if ((hall.getCapacity() == 0) || ((hall.getColCount() * hall.getRowCount()) != hall.getCapacity())) {
+				return false;
+			}
+
+		}
+		
+		return true;
+	}
 
 }
