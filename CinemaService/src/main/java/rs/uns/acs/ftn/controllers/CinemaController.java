@@ -36,23 +36,23 @@ public class CinemaController extends AbstractRESTController {
 		this.cinemaService = cinemaService;
 	}
 	
-	@RequestMapping("/hello")
-	public String Hello() {
-		return "hello";
-	}
-	
 	@RequestMapping(method = RequestMethod.POST, 
 			consumes = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Cinema> save(@RequestParam(name = "sessionId") String sessionId,
+	public ResponseEntity<Object> save(@RequestParam(name = "sessionId") String sessionId,
 							@RequestBody Cinema newCinema) {
 
 		if (!isAdmin(cinemaService.getUserType(sessionId))) {
-			return new ResponseEntity<Cinema>(newCinema, HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Object>(newCinema, HttpStatus.FORBIDDEN);
 		}
+		
+		if (!cinemaService.isCinemaValid(newCinema)) {
+			return new ResponseEntity<Object>("not valid", HttpStatus.OK);
+		}
+		
 		Cinema created = cinemaService.save(newCinema);
 
 
-		return new ResponseEntity<Cinema>(created, HttpStatus.OK);
+		return new ResponseEntity<Object>(created, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -70,17 +70,21 @@ public class CinemaController extends AbstractRESTController {
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Cinema> update(@PathVariable String id, 
-									     @RequestBody Cinema newEntity,
+	public ResponseEntity<Object> update(@PathVariable String id, 
+									     @RequestBody Cinema newCinema,
 									     @RequestParam(name = "sessionId") String sessionId) {
 		
 		if (!isAdmin(cinemaService.getUserType(sessionId))) {
-			return new ResponseEntity<Cinema>(newEntity, HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Object>(newCinema, HttpStatus.FORBIDDEN);
 		}
 		
-		Cinema updated = cinemaService.update(id, newEntity);
+		if (!cinemaService.isCinemaValid(newCinema)) {
+			return new ResponseEntity<Object>("not valid", HttpStatus.OK);
+		}
+		
+		Cinema updated = cinemaService.update(id, newCinema);
 
-		return new ResponseEntity<Cinema>(updated, HttpStatus.OK);
+		return new ResponseEntity<Object>(updated, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/cinemas_by_name", method = RequestMethod.GET)
@@ -102,16 +106,24 @@ public class CinemaController extends AbstractRESTController {
 	}
 	
 	@RequestMapping(value = "/rate", method = RequestMethod.POST)
-	public ResponseEntity<Cinema> rateCinema(@RequestParam(name = "sessionId") String sessionId,
+	public ResponseEntity<Object> rateCinema(@RequestParam(name = "sessionId") String sessionId,
 											 @RequestBody RatingDTO dto) {
 		
 		if (!isRegistered(cinemaService.getUserType(sessionId))) {
-			return new ResponseEntity<Cinema>(cinemaService.findOne(dto.getCinemaId()), HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Object>(cinemaService.findOne(dto.getCinemaId()), HttpStatus.FORBIDDEN);
 		}
 		
-		Cinema cinema = cinemaService.rate(dto.getCinemaId(), new Rating(dto.getValue(), dto.getUserId()));
+		Rating rating = new Rating(dto.getValue(), dto.getUserId());
+		if (!cinemaService.isRatingValid(rating)) {
+			return new ResponseEntity<Object>("not valid", HttpStatus.OK);
+		}
 		
-		return new ResponseEntity<Cinema>(cinema, HttpStatus.OK);
+		Cinema cinema = cinemaService.rate(dto.getCinemaId(), rating);
+		
+		if (cinema == null)
+			return new ResponseEntity<Object>("cinema not found", HttpStatus.OK);
+		
+		return new ResponseEntity<Object>(cinema, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/ranking", method = RequestMethod.GET)
