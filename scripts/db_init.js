@@ -19,6 +19,7 @@ var createDatabasesAndCollections = function(conn, sufix){
 	
 	var cinemaserviceDb = conn.getDB("cinemaservice-" + sufix);
 	cinemaserviceDb.createCollection("cinema");
+	cinemaserviceDb.cinema.createIndex( { "location" : "2dsphere" } )
 };
 
 // load("E:/AA Github/smpuos-projekcije/scripts/user.js");
