@@ -64,6 +64,10 @@ public class MovieService extends AbstractCRUDService<Movie, String>{
 	
 	public Movie rateMovie(String id, Rating rating){
 		Movie movie = movieRepository.findById(id);
+		if (rating.getValue() > 5 || rating.getValue() < 1) {
+			movie = new Movie();
+			return movie;
+		}
 		if( movie!=null){
 			boolean contains = false;
 			for (Rating movieRating : movie.getRatings()){
@@ -88,7 +92,9 @@ public class MovieService extends AbstractCRUDService<Movie, String>{
 	public Movie updateMovie(String id, String name, String description, Long length, Director director, List<Actor> actors,
 			Category category, List<Rating> ratings, Date premiere){
 		Movie movie = movieRepository.findById(id);
-		
+		if(movie == null){
+			return null;
+		}
 		if(name!=null && name!=""){
 			movie.setName(name);
 		}
@@ -231,7 +237,7 @@ public class MovieService extends AbstractCRUDService<Movie, String>{
 	}
 
 	public String fallbackGetTypeForMovie(String sessionId) {
-		System.out.println("fallback user");
+		System.out.println("User Service Can't Be Reached");
 		return "";
 	}
 

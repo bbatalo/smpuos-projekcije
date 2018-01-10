@@ -86,6 +86,9 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<Movie> getMovie(@RequestParam(name = "movie_id") String movieId){
 			Movie movie = movieService.findById(movieId);
+			if(movie==null){
+				return new ResponseEntity<Movie>(movie, HttpStatus.NOT_FOUND) ;
+			}
 			return new ResponseEntity<Movie>(movie, HttpStatus.OK);
 	}
 	
@@ -106,6 +109,9 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 				return new ResponseEntity<Movie>(movie, HttpStatus.FORBIDDEN);	
 			}
 			movie = movieService.updateMovie(dto.getId(), dto.getName(), dto.getDescription(), dto.getLength(), dto.getDirector(), dto.getActors(), dto.getCategory(), dto.getRatings(), dto.getPremiere());
+			if(movie==null){
+				return new ResponseEntity<Movie>(movie, HttpStatus.NOT_FOUND);	
+			}
 			return new ResponseEntity<Movie>(movie, HttpStatus.OK);
 	}
 	
@@ -126,6 +132,9 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 				return new ResponseEntity<Boolean>(false, HttpStatus.FORBIDDEN);	
 			}
 			Boolean removed = movieService.delete(movieId);
+			if(removed==false){
+				return new ResponseEntity<Boolean>(removed, HttpStatus.NOT_FOUND);	
+			}
 			return new ResponseEntity<Boolean>(removed, HttpStatus.OK);
 	}
 	
@@ -139,7 +148,7 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			Movie movie = new Movie();
 			String test = movieService.getTypeBySessionIdLoad(sessionId);
 			if(test==null){
-				return new ResponseEntity<Movie>(movie, HttpStatus.FORBIDDEN);	
+				return new ResponseEntity<Movie>(movie, HttpStatus.NOT_FOUND) ;
 			}
 			if (isNotAdmin(test)){
 				System.out.println(isNotAdmin(movieService.getTypeBySessionIdLoad(sessionId)));
@@ -147,6 +156,13 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			}
 			Rating rating = new Rating(dto.getValue(), dto.getPosterId());
 			movie = movieService.rateMovie(dto.getMovieId(), rating);
+			if (movie == null){
+				return new ResponseEntity<Movie>(movie, HttpStatus.NOT_FOUND);
+			}
+			if (movie.getId()==null){
+				return new ResponseEntity<Movie>(movie, HttpStatus.FORBIDDEN);	
+			}
+			
 			return new ResponseEntity<Movie>(movie, HttpStatus.OK);
 	}
 	
@@ -239,6 +255,9 @@ public class MovieController extends AbstractRESTController<Movie, String> {
 			produces = MediaType.TEXT_PLAIN)
 	public ResponseEntity<String> getMovieName(@RequestBody String movieId){
 			String name = movieService.findMovieName(movieId);
+			if(name.equals("")){
+				return new ResponseEntity<String>(name, HttpStatus.NOT_FOUND) ;
+			}
 			return new ResponseEntity<String>(name, HttpStatus.OK) ;
 
 	}

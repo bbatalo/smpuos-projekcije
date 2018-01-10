@@ -1,0 +1,521 @@
+{
+	"info": {
+		"name": "MovieService",
+		"_postman_id": "0e5a0959-0f8f-2464-04ac-60feb7dee837",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:8082/movies/addMovie?sessionId=65a849c1-7e3a-49d5-94e5-3237f8e411d5",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"name\" : \"Fight Club\",\r\n            \"description\": \"An insomniac office worker, looking for a way to change his life, crosses paths with a devil-may-care soapmaker, forming an underground fight club that evolves into something much, much more.\",\r\n            \"length\": 139,\r\n            \"director\": {\r\n\t\t\t\t\t\t\"firstName\": \"David\",\r\n\t\t\t\t\t\t\"lastName\": \"Fincher\"\r\n\t\t\t},\r\n            \"actors\": [\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Edward\",\r\n\t\t\t\t\"lastName\": \"Norton\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Brad\",\r\n\t\t\t\t\"lastName\": \"Pitt\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Meat\",\r\n\t\t\t\t\"lastName\": \"Loaf\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Zach\",\r\n\t\t\t\t\"lastName\": \"Grenier\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Richmond\",\r\n\t\t\t\t\"lastName\": \"Arquette\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"David\",\r\n\t\t\t\t\"lastName\": \"Andrews\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"George\",\r\n\t\t\t\t\"lastName\": \"Maguire\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Helena\",\r\n\t\t\t\t\"lastName\": \"Bonham Carter\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Eugenie\",\r\n\t\t\t\t\"lastName\": \"Bondurant\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Christina\",\r\n\t\t\t\t\"lastName\": \"Cabot\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Sydney\",\r\n\t\t\t\t\"lastName\": \"Colston\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Rachel\",\r\n\t\t\t\t\"lastName\": \"Singer\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Christie\",\r\n\t\t\t\t\"lastName\": \"Cronenweth\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Tim\",\r\n\t\t\t\t\"lastName\": \"DeZarn\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Ezra\",\r\n\t\t\t\t\"lastName\": \"Buzzington\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Jared\",\r\n\t\t\t\t\"lastName\": \"Leto\"\r\n\t\t\t}\r\n\t\t\t],\r\n            \"category\": \"DRAMA\",\r\n            \"ratings\": [],\r\n            \"ratingAvg\": 0,\r\n            \"premiere\": \"1999-10-15\"\r\n        }"
+				},
+				"url": {
+					"raw": "localhost:8082/movies/addMovie?sessionId=8a44b6c1-185c-4d5f-875b-2994ffc90cf3",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"movies",
+						"addMovie"
+					],
+					"query": [
+						{
+							"key": "sessionId",
+							"value": "8a44b6c1-185c-4d5f-875b-2994ffc90cf3",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8081/users/login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"username\" : \"admin\",\n\"password\" : \"admin\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8081/users/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"users",
+						"login"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8082/movies/rateMovie?sessionId=43239a13-39f7-487a-9d28-bb573b5c4e5d",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"value\" : 3,\n\"posterId\": \"5a5582d1e53c733d7f7ea62d\",\n\"movieId\": \"5a5582d1e53c733d7f7ea631\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8082/movies/rateMovie?sessionId=013a3445-c43f-4d06-b591-85c478d4930c",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"movies",
+						"rateMovie"
+					],
+					"query": [
+						{
+							"key": "sessionId",
+							"value": "013a3445-c43f-4d06-b591-85c478d4930c",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8081/users/loginJohan",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"username\" : \"johan\",\n\"password\" : \"johanpass\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8081/users/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"users",
+						"login"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8081/users/sign_up",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"johan\",\n\t\"password\" : \"johanpass\",\n\t\"firstName\" : \"john\",\n\t\"lastName\" : \"doe\",\n\t\"dateOfBirth\" : \"1991-01-01T00:00:00.000Z\",\n\t\"gender\" : \"OTHER\",\n\t\"location\": {\n        \"type\": \"Point\",\n        \"coordinates\": [-45.0, -22.0]\n    }\n}"
+				},
+				"url": {
+					"raw": "localhost:8081/users/sign_up",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"users",
+						"sign_up"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8081/users/loginRegular",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"username\" : \"regular\",\n\"password\" : \"regular\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8081/users/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"users",
+						"login"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8082/movies/getMovies?page=0",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8082/movies/getMovies?page=0",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"movies",
+						"getMovies"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8082/movies/deleteMovie?sessionId=42cc8069-6591-4144-b00c-840575e2070d",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "5a5587ab42194127d0b4880a"
+				},
+				"url": {
+					"raw": "localhost:8082/movies/deleteMovie?sessionId=8a44b6c1-185c-4d5f-875b-2994ffc90cf3",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"movies",
+						"deleteMovie"
+					],
+					"query": [
+						{
+							"key": "sessionId",
+							"value": "8a44b6c1-185c-4d5f-875b-2994ffc90cf3",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8082/movies/updateMovie?sessionId=357a6515-dffe-411e-919d-d2dc370e3e08",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\t\"id\" : \"5a5587ab42194127d0b4880a\",\r\n            \"name\" : \"Fight Club\",\r\n            \"description\": \"An insomniac office worker, looking for a way to change his life, crosses paths with a devil-may-care soapmaker, forming an underground fight club that evolves into something much, much more.\",\r\n            \"length\": 139,\r\n            \"director\": {\r\n\t\t\t\t\t\t\"firstName\": \"David\",\r\n\t\t\t\t\t\t\"lastName\": \"Fincher\"\r\n\t\t\t},\r\n            \"actors\": [\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Edward\",\r\n\t\t\t\t\"lastName\": \"Norton\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Brad\",\r\n\t\t\t\t\"lastName\": \"Pitt\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Meat\",\r\n\t\t\t\t\"lastName\": \"Loaf\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Zach\",\r\n\t\t\t\t\"lastName\": \"Grenier\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Richmond\",\r\n\t\t\t\t\"lastName\": \"Arquette\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"David\",\r\n\t\t\t\t\"lastName\": \"Andrews\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"George\",\r\n\t\t\t\t\"lastName\": \"Maguire\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Helena\",\r\n\t\t\t\t\"lastName\": \"Bonham Carter\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Eugenie\",\r\n\t\t\t\t\"lastName\": \"Bondurant\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Christina\",\r\n\t\t\t\t\"lastName\": \"Cabot\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Sydney\",\r\n\t\t\t\t\"lastName\": \"Colston\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Rachel\",\r\n\t\t\t\t\"lastName\": \"Singer\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Christie\",\r\n\t\t\t\t\"lastName\": \"Cronenweth\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Tim\",\r\n\t\t\t\t\"lastName\": \"DeZarn\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Ezra\",\r\n\t\t\t\t\"lastName\": \"Buzzington\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"firstName\": \"Jared\",\r\n\t\t\t\t\"lastName\": \"Leto\"\r\n\t\t\t}\r\n\t\t\t],\r\n            \"category\": \"COMEDY\",\r\n            \"ratings\": [],\r\n            \"ratingAvg\": 0,\r\n            \"premiere\": \"1999-10-15\"\r\n        }"
+				},
+				"url": {
+					"raw": "localhost:8082/movies/updateMovie?sessionId=8a44b6c1-185c-4d5f-875b-2994ffc90cf3",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"movies",
+						"updateMovie"
+					],
+					"query": [
+						{
+							"key": "sessionId",
+							"value": "8a44b6c1-185c-4d5f-875b-2994ffc90cf3",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8082/movies/getMovieName",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "5a5582d1e53c733d7f7ea62s"
+				},
+				"url": {
+					"raw": "localhost:8082/movies/getMovieName",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"movies",
+						"getMovieName"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8082/movies/getByCategory?category=HORROR",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8082/movies/getByCategory?category=HORROR",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"movies",
+						"getByCategory"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "HORROR",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8082/movies/getByActor?actor_name=Ryan&actor_surname=Gosling",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8082/movies/getByActor?actor_name=Ryan&actor_surname=Gosling",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"movies",
+						"getByActor"
+					],
+					"query": [
+						{
+							"key": "actor_name",
+							"value": "Ryan",
+							"equals": true
+						},
+						{
+							"key": "actor_surname",
+							"value": "Gosling",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8082/movies/getByDirector?director_name=Ridley&director_surname=Scott",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8082/movies/getByDirector?director_name=Ridley&director_surname=Scott",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"movies",
+						"getByDirector"
+					],
+					"query": [
+						{
+							"key": "director_name",
+							"value": "Ridley",
+							"equals": true
+						},
+						{
+							"key": "director_surname",
+							"value": "Scott",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8082/movies/getTrending",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8082/movies/getTrending",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"movies",
+						"getTrending"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8082/movies/getMoviesByYear?year_str=1991",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "year_str",
+						"value": "1991"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "localhost:8082/movies/getMoviesByYear?year_str=1991",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"movies",
+						"getMoviesByYear"
+					],
+					"query": [
+						{
+							"key": "year_str",
+							"value": "1991",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8082/movies/getMovie?movie_id=5a53fbb441cfe52a950120ca",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8082/movies/getMovie?movie_id=5a53fbb441cfe52a950120ca",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"movies",
+						"getMovie"
+					],
+					"query": [
+						{
+							"key": "movie_id",
+							"value": "5a53fbb441cfe52a950120ca",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8082/movies/getByRating?rating=0",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8082/movies/getByRating?rating=4",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"movies",
+						"getByRating"
+					],
+					"query": [
+						{
+							"key": "rating",
+							"value": "4",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
