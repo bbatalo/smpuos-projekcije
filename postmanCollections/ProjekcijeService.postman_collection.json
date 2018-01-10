@@ -21,13 +21,10 @@
 					"raw": "{\n\t\"username\" : \"admin\",\n\t\"password\" : \"admin\"\n}"
 				},
 				"url": {
-					"raw": "http://192.168.0.12:8081/users/login",
+					"raw": "http://localhost:8081/users/login",
 					"protocol": "http",
 					"host": [
-						"192",
-						"168",
-						"0",
-						"12"
+						"localhost"
 					],
 					"port": "8081",
 					"path": [
@@ -54,10 +51,10 @@
 					"raw": "{\r\n    \"date\" : \"1515607200000\",\r\n    \"type\": \"REGULAR\",\r\n    \"status\": \"ACTIVE\",\r\n    \"cinemaId\": \"5a5169492e1dcff9ec8f1b70\",\r\n    \"hallId\": \"5a5169492e1dcff9ec8f1b6d\",\r\n    \"movieId\": \"5a553b592fac2dc18456b9a5\"\r\n}"
 				},
 				"url": {
-					"raw": "http://milos-lap:8181/projekcije/?sessionId=41191af6-0262-4a04-b9b0-46b8ae2487c3",
+					"raw": "http://localhost:8181/projekcije/?sessionId=41191af6-0262-4a04-b9b0-46b8ae2487c3",
 					"protocol": "http",
 					"host": [
-						"milos-lap"
+						"localhost"
 					],
 					"port": "8181",
 					"path": [
@@ -91,10 +88,10 @@
 					"raw": "{\n\t\"status\" : \"ACTIVE\",\n\t\"type\" : \"PREMIERE\"\n}"
 				},
 				"url": {
-					"raw": "http://milos-lap:8181/projekcije/pr3?sessionId=41191af6-0262-4a04-b9b0-46b8ae2487c3",
+					"raw": "http://localhost:8181/projekcije/pr3?sessionId=41191af6-0262-4a04-b9b0-46b8ae2487c3",
 					"protocol": "http",
 					"host": [
-						"milos-lap"
+						"localhost"
 					],
 					"port": "8181",
 					"path": [
@@ -120,10 +117,10 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://milos-lap:8181/projekcije/pr2?sessionId=41191af6-0262-4a04-b9b0-46b8ae2487c3",
+					"raw": "http://localhost:8181/projekcije/pr2?sessionId=41191af6-0262-4a04-b9b0-46b8ae2487c3",
 					"protocol": "http",
 					"host": [
-						"milos-lap"
+						"localhost"
 					],
 					"port": "8181",
 					"path": [
@@ -149,10 +146,10 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://milos-lap:8181/projekcije/search/premiere",
+					"raw": "http://localhost:8181/projekcije/search/premiere",
 					"protocol": "http",
 					"host": [
-						"milos-lap"
+						"localhost"
 					],
 					"port": "8181",
 					"path": [
@@ -172,10 +169,10 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://milos-lap:8181/projekcije/search/active",
+					"raw": "http://localhost:8181/projekcije/search/active",
 					"protocol": "http",
 					"host": [
-						"milos-lap"
+						"localhost"
 					],
 					"port": "8181",
 					"path": [
@@ -195,10 +192,10 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://milos-lap:8181/projekcije/search/findByCinemaName?name=Cinema SRB",
+					"raw": "http://localhost:8181/projekcije/search/findByCinemaName?name=Cinema SRB",
 					"protocol": "http",
 					"host": [
-						"milos-lap"
+						"localhost"
 					],
 					"port": "8181",
 					"path": [
@@ -225,10 +222,10 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://milos-lap:8181/projekcije/search/findByCinemaId?id=1",
+					"raw": "http://localhost:8181/projekcije/search/findByCinemaId?id=1",
 					"protocol": "http",
 					"host": [
-						"milos-lap"
+						"localhost"
 					],
 					"port": "8181",
 					"path": [
@@ -255,10 +252,10 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://milos-lap:8181/projekcije/search/findByMovieName/?name=Биће боље - aб",
+					"raw": "http://localhost:8181/projekcije/search/findByMovieName/?name=Биће боље - aб",
 					"protocol": "http",
 					"host": [
-						"milos-lap"
+						"localhost"
 					],
 					"port": "8181",
 					"path": [
@@ -286,10 +283,10 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://milos-lap:8181/projekcije/search/findByMovieId/?id=100",
+					"raw": "http://localhost:8181/projekcije/search/findByMovieId/?id=100",
 					"protocol": "http",
 					"host": [
-						"milos-lap"
+						"localhost"
 					],
 					"port": "8181",
 					"path": [
@@ -317,10 +314,10 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://milos-lap:8181/projekcije/",
+					"raw": "http://localhost:8181/projekcije/",
 					"protocol": "http",
 					"host": [
-						"milos-lap"
+						"localhost"
 					],
 					"port": "8181",
 					"path": [
@@ -329,6 +326,27 @@
 					]
 				},
 				"description": "Radi odmah."
+			},
+			"response": []
+		},
+		{
+			"name": "projekcije GET -> pristup preko zuula",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8765/projekcije-service/projekcije",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"projekcije-service",
+						"projekcije"
+					]
+				},
+				"description": ""
 			},
 			"response": []
 		}
